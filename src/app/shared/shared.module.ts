@@ -11,7 +11,6 @@ import { AuthGuard } from '@shared/guards/auth.guard';
 import { DescriptionModalComponent } from '@shared/components/description-modal/description-modal.component';
 import { MaterialModule } from '@shared/material.module';
 import { OnlyNumberDirective } from '@shared/directives/only-number.directive';
-import { DeviceDetectorModule } from 'ngx-device-detector';
 import { ChangePasswordModalComponent } from '@shared/components/change-password-modal/change-password-modal.component';
 import { EventModalComponent } from "@shared/components/event-modal/event-modal.component";
 
@@ -40,8 +39,7 @@ import { EventModalComponent } from "@shared/components/event-modal/event-modal.
     FormsModule,
     ChartsModule,
     ReactiveFormsModule,
-    MaterialModule,
-    DeviceDetectorModule.forRoot()
+    MaterialModule
   ],
   exports: [
     FormsModule,
