@@ -1,0 +1,7 @@
+<span [style.color]="data.color" fxLayoutAlign="space-around center">
+  <mat-icon class="icon-left" *ngIf="data.warning">warning</mat-icon>
+  <mat-icon class="icon-left" *ngIf="!data.warning">info</mat-icon>
+  {{data.message}}
+  <mat-icon class="icon-right" *ngIf="data.warning">warning</mat-icon>
+  <mat-icon class="icon-right" *ngIf="!data.warning">info</mat-icon>
+</span>

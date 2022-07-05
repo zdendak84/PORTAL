@@ -1,0 +1,33 @@
+<div class="bg-img">
+  <div class="centered-wrapper">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-card>
+        <mat-card-header fxLayout="row" fxLayoutAlign="center center">
+          <mat-card-title><b>Aplikační distributor</b></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field fxLayout="column">
+            <input matInput name="username" formControlName="userName"/>
+            <mat-label><mat-icon>perm_identity</mat-icon> <b>Uživatel</b></mat-label>
+            <mat-error *ngIf="userName.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+          <mat-form-field fxLayout="column">
+            <input matInput type="password" name="password" formControlName="password"/>
+            <mat-label><mat-icon>lock</mat-icon> <b>Heslo</b></mat-label>
+            <mat-error *ngIf="password.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+          <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid" *ngIf="!loading">
+            <mat-icon>lock</mat-icon> Přihlásit
+          </button>
+          <button type="button" mat-raised-button color="primary" *ngIf="loading" [style.width.px]=130>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-spinner diameter="35"></mat-spinner>
+            </div>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+</div>

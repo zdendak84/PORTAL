@@ -1,0 +1,73 @@
+<h1 mat-dialog-title>Události</h1>
+<div *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<div mat-dialog-content>
+  <ng-container *ngIf="!dataSource?.filteredData?.length && !loading">
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+      <h2 class="mat-h2">Události nenalezeny.</h2>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="dataSource?.filteredData?.length">
+    <table
+            [dataSource]="dataSource"
+            mat-table
+            class="full-width-table"
+            matSort
+            aria-label="Elements"
+    >
+      <ng-container matColumnDef="severity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Závažnost</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip-list>
+            <mat-chip [style.background]="getColor(row.severity)">{{ row.severity }}
+            </mat-chip>
+          </mat-chip-list>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Vytvořeno</th>
+        <td mat-cell *matCellDef="let row">{{ row.createdAt | date: 'dd.MM.yyyy HH:mm:ss' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="eventName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Událost</th>
+        <td mat-cell *matCellDef="let row">{{ row.eventName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Detail</th>
+        <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Uživatel</th>
+        <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="stationHostname">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Stanice</th>
+        <td mat-cell *matCellDef="let row">{{ row.stationHostname }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="terminalSrvHostname">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Terminál</th>
+        <td mat-cell *matCellDef="let row">{{ row.terminalSrvHostname }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="printerName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tiskárna</th>
+        <td mat-cell *matCellDef="let row">{{ row.printerName }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+  </ng-container>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button type="button" color="warn" (click)="onCloseClick()">Zavřít</button>
+</div>

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.header}}</h1>
+<div mat-dialog-content fxLayout="row" fxLayoutAlign="center center">
+  <h3>{{data.body}}</h3>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+  <button mat-raised-button type="button" color="primary" (click)="onYesClick()">Ano</button>
+  <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Ne</button>
+</div>
