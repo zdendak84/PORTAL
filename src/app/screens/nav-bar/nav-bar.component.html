@@ -14,7 +14,7 @@
     <mat-icon matTooltip="Dashboard">home</mat-icon>
   </button>
   <span fxFlex></span>
-  {{ actualDate | date : 'dd.MM.yyyy' }}
+  {{ actualDate.toDate() | date : 'dd.MM.yyyy' }}
   <button mat-button [matMenuTriggerFor]="userMenu">
     <mat-icon>account_box</mat-icon>{{ userNameWithTitle }}
   </button>
