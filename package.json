@@ -40,7 +40,7 @@
     "moment": "^2.27.0",
     "ng2-charts": "^2.4.1",
     "ngx-color-picker": "^10.0.1",
-    "ngx-device-detector": "^1.5.2",
+    "ngx-device-detector": "^2.2.1",
     "ngx-mat-select-search": "^3.2.0",
     "ngx-material-timepicker": "^5.5.3",
     "pdfmake": "^0.1.68",
