@@ -3,13 +3,13 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-card>
         <mat-card-header fxLayout="row" fxLayoutAlign="center center">
-          <mat-card-title><b>Aplikační distributor</b></mat-card-title>
+          <mat-card-title><b>PORTÁL</b></mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <mat-form-field fxLayout="column">
-            <input matInput name="username" formControlName="userName"/>
-            <mat-label><mat-icon>perm_identity</mat-icon> <b>Uživatel</b></mat-label>
-            <mat-error *ngIf="userName.invalid">{{fieldRequired}}</mat-error>
+            <input matInput name="username" formControlName="email"/>
+            <mat-label><mat-icon>perm_identity</mat-icon> <b>Email</b></mat-label>
+            <mat-error *ngIf="email.invalid">{{fieldRequired}}</mat-error>
           </mat-form-field>
           <mat-form-field fxLayout="column">
             <input matInput type="password" name="password" formControlName="password"/>

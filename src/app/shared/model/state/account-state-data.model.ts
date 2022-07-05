@@ -1,6 +1,6 @@
 import {AccountDataModel} from "@shared/model/backend-api/accountDataModel";
 
-export interface AuthenticationResponseDataModel {
+export interface AccountStateDataModel {
   account: AccountDataModel;
   jwt: string;
 }

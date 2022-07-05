@@ -11,7 +11,7 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private store: Store) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const userDetails = this.store.selectSnapshot(AppState.userBasicData);
+    const userDetails = this.store.selectSnapshot(AppState.accountBasicData);
     if (userDetails && userDetails.jwt) {
       request = request.clone({
         setHeaders: {

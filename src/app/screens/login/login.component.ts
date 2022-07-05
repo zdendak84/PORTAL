@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
     private snackbarService: SnackbarService,
     private authService: AuthenticationService) {}
 
-  get userName(): AbstractControl {
-    return this.loginForm.get('userName');
+  get email(): AbstractControl {
+    return this.loginForm.get('email');
   }
 
   get password(): AbstractControl {
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.authService.login({userName: this.userName.value, password: this.password.value}).subscribe(() => {
+    this.authService.login({email: this.email.value, password: this.password.value}).subscribe(() => {
       this.loading = false;
       this.afterLoginNavigation();
     }, () => {
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
 
   private createLoginForm(): void {
     this.loginForm = this.fb.group({
-      userName: [null, Validators.required],
+      email: [null, Validators.required],
       password: [null, Validators.required]
     });
   }

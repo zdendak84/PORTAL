@@ -1,5 +1,5 @@
-import { UserStateDataModel } from "@shared/model/state/user-state-data.model";
+import { AccountStateDataModel } from "@shared/model/state/account-state-data.model";
 
 export interface AppStateModel {
-  userBasicData: UserStateDataModel;
+  accountBasicData: AccountStateDataModel;
 }

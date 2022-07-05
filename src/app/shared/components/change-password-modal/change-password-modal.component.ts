@@ -6,9 +6,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { MustMatch } from '@shared/validators/must-match.validator';
 import { AppState } from '@store/app.state';
-import { UserService } from '@services/backend-api/users/user.service';
+import { AccountService } from '@services/backend-api/users/account.service';
 import { SnackbarService } from '@services/utility/snackbar.service';
-import { UserStateDataModel } from '@shared/model/state/user-state-data.model';
+import { AccountStateDataModel } from '@shared/model/state/account-state-data.model';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
 
@@ -21,9 +21,9 @@ import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
 export class ChangePasswordModalComponent implements OnInit {
   readonly fieldRequired = 'Toto pole je povinné';
   readonly passwordMatch = 'Hesla nejsou stejná';
-  @Select(AppState.userBasicData) user$: Observable<UserStateDataModel>;
+  @Select(AppState.accountBasicData) account$: Observable<AccountStateDataModel>;
   passwordChangeForm: FormGroup;
-  userId: number;
+  accountId: number;
   hide = true;
 
   constructor(
@@ -31,7 +31,7 @@ export class ChangePasswordModalComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store,
     private snackBarService: SnackbarService,
-    private userService: UserService) {}
+    private userService: AccountService) {}
 
   get oldPassword(): AbstractControl {
     return this.passwordChangeForm.get('oldPassword');
@@ -46,8 +46,8 @@ export class ChangePasswordModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user$.pipe(untilDestroyed(this)).subscribe(userBasicData => {
-      this.userId = userBasicData.user.userId;
+    this.account$.pipe(untilDestroyed(this)).subscribe(accountBasicData => {
+      this.accountId = accountBasicData.account.accountId;
     });
     this.createPasswordChangeForm();
   }
@@ -57,7 +57,7 @@ export class ChangePasswordModalComponent implements OnInit {
       return;
     }
     this.userService.changeUserPassword({
-      userId: this.userId,
+      accountId: this.accountId,
       oldPassword: this.oldPassword.value,
       newPassword: this.newPassword.value
     }).subscribe(() => {

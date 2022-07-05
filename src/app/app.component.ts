@@ -3,7 +3,7 @@ import { Store } from '@ngxs/store';
 import { AppState } from '@store/app.state';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 
-import { UserDataModel } from '@shared/model/backend-api/userDataModel';
+import { AccountDataModel } from '@shared/model/backend-api/accountDataModel';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { environment } from '../environments/environment';
 import { AuthenticationService } from '@services/backend-api/users/authentication.service';
@@ -15,7 +15,7 @@ import { AuthenticationService } from '@services/backend-api/users/authenticatio
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  userData: UserDataModel;
+  accountData: AccountDataModel;
   constructor(
     private store: Store,
     private authenticationService: AuthenticationService,
@@ -23,11 +23,11 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.select(AppState.userBasicData).pipe(untilDestroyed(this)).subscribe(userData => {
-      if (userData) {
-        this.userData = userData.user;
+    this.store.select(AppState.accountBasicData).pipe(untilDestroyed(this)).subscribe(accountData => {
+      if (accountData) {
+        this.accountData = accountData.account;
       } else {
-        this.userData = null;
+        this.accountData = null;
       }
     });
     this.idle.setIdle(environment.idleTime * 60);

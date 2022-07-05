@@ -1,11 +1,11 @@
-import { UserStateDataModel } from "@shared/model/state/user-state-data.model";
+import { AccountStateDataModel } from "@shared/model/state/account-state-data.model";
 
 export class CleanStore {
   static readonly type = '[App] Clean store';
   constructor() {}
 }
 
-export class SetUserBasicData {
-  static readonly type = '[App] Set user data';
-  constructor(public userBasicData: UserStateDataModel) {}
+export class SetAccountBasicData {
+  static readonly type = '[App] Set account data';
+  constructor(public accountBasicData: AccountStateDataModel) {}
 }

@@ -2,14 +2,14 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { patch } from '@ngxs/store/operators';
 
 import { AppStateModel } from './app.model';
-import { CleanStore, SetUserBasicData } from './app.actions';
-import { UserStateDataModel } from "@shared/model/state/user-state-data.model";
+import { CleanStore, SetAccountBasicData } from './app.actions';
+import { AccountStateDataModel } from "@shared/model/state/account-state-data.model";
 import { Injectable } from '@angular/core';
 
 @State<AppStateModel>({
-  name: 'appd',
+  name: 'portal',
   defaults: {
-    userBasicData: (sessionStorage.getItem('user')) ? JSON.parse(sessionStorage.getItem('user')) : null
+    accountBasicData: (sessionStorage.getItem('account')) ? JSON.parse(sessionStorage.getItem('account')) : null
   }
 })
 @Injectable({
@@ -19,21 +19,21 @@ import { Injectable } from '@angular/core';
 export class AppState {
 
   @Selector()
-  static userBasicData(state: AppStateModel): UserStateDataModel {
-    return state.userBasicData;
+  static accountBasicData(state: AppStateModel): AccountStateDataModel {
+    return state.accountBasicData;
   }
 
   @Action(CleanStore)
   cleanStore(ctx: StateContext<AppStateModel>): void {
     ctx.setState(
-      patch({codeBooks: null, userBasicData: null})
+      patch({codeBooks: null, accountBasicData: null})
     );
   }
 
-  @Action(SetUserBasicData)
-  setUserBasicData(ctx: StateContext<AppStateModel>, action: SetUserBasicData): void {
+  @Action(SetAccountBasicData)
+  setUserBasicData(ctx: StateContext<AppStateModel>, action: SetAccountBasicData): void {
     ctx.setState(
-        patch({userBasicData: action.userBasicData})
+        patch({accountBasicData: action.accountBasicData})
     );
   }
 }
