@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
 
@@ -10,10 +10,10 @@ import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
   styleUrls: ['./description-modal.component.css']
 })
 export class DescriptionModalComponent implements OnInit {
-  descriptionForm: FormGroup;
+  descriptionForm: UntypedFormGroup;
   constructor(
     public dialogRef: MatDialogRef<DescriptionModalComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: {body: string; header: string}
   ) {}
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
 
@@ -15,10 +15,10 @@ import { SnackbarService } from '@services/utility/snackbar.service';
 export class LoginComponent implements OnInit {
   readonly fieldRequired = 'Toto pole je povinné';
   loading: boolean;
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private store: Store,
     private snackbarService: SnackbarService,
     private authService: AuthenticationService) {}

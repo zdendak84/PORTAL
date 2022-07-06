@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -22,13 +22,13 @@ export class ChangePasswordModalComponent implements OnInit {
   readonly fieldRequired = 'Toto pole je povinné';
   readonly passwordMatch = 'Hesla nejsou stejná';
   @Select(AppState.accountBasicData) account$: Observable<AccountStateDataModel>;
-  passwordChangeForm: FormGroup;
+  passwordChangeForm: UntypedFormGroup;
   accountId: number;
   hide = true;
 
   constructor(
     public dialogRef: MatDialogRef<ChangePasswordModalComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private store: Store,
     private snackBarService: SnackbarService,
     private userService: AccountService) {}
