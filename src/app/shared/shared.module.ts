@@ -15,44 +15,37 @@ import { ChangePasswordModalComponent } from '@shared/components/change-password
 import { EventModalComponent } from "@shared/components/event-modal/event-modal.component";
 
 @NgModule({
-  declarations: [
-    ToolbarComponent,
-    StatusPipe,
-    SnackBarComponent,
-    YesNoModalComponent,
-    SpinnerComponent,
-    DescriptionModalComponent,
-    OnlyNumberDirective,
-    ChangePasswordModalComponent,
-    EventModalComponent
-  ],
-  entryComponents: [
-    SnackBarComponent,
-    YesNoModalComponent,
-    DescriptionModalComponent,
-    ChangePasswordModalComponent,
-    EventModalComponent
-  ],
-  providers: [ AuthGuard ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ChartsModule,
-    ReactiveFormsModule,
-    MaterialModule
-  ],
-  exports: [
-    FormsModule,
-    ReactiveFormsModule,
-    ToolbarComponent,
-    StatusPipe,
-    SnackBarComponent,
-    SpinnerComponent,
-    YesNoModalComponent,
-    DescriptionModalComponent,
-    MaterialModule,
-    OnlyNumberDirective,
-    ChangePasswordModalComponent
-  ]
+    declarations: [
+        ToolbarComponent,
+        StatusPipe,
+        SnackBarComponent,
+        YesNoModalComponent,
+        SpinnerComponent,
+        DescriptionModalComponent,
+        OnlyNumberDirective,
+        ChangePasswordModalComponent,
+        EventModalComponent
+    ],
+    providers: [AuthGuard],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ChartsModule,
+        ReactiveFormsModule,
+        MaterialModule
+    ],
+    exports: [
+        FormsModule,
+        ReactiveFormsModule,
+        ToolbarComponent,
+        StatusPipe,
+        SnackBarComponent,
+        SpinnerComponent,
+        YesNoModalComponent,
+        DescriptionModalComponent,
+        MaterialModule,
+        OnlyNumberDirective,
+        ChangePasswordModalComponent
+    ]
 })
 export class SharedModule { }

@@ -9,16 +9,15 @@ import { AppState } from '@store/app.state';
 import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-  declarations: [
-    HomePageComponent
-  ],
-  entryComponents: [],
-  imports: [
-    CommonModule,
-    SharedModule,
-    HomePageRoutingModule,
-    ChartsModule,
-    NgxsModule.forFeature([AppState]),
-  ],
+    declarations: [
+        HomePageComponent
+    ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        HomePageRoutingModule,
+        ChartsModule,
+        NgxsModule.forFeature([AppState]),
+    ]
 })
 export class HomePageModule {}

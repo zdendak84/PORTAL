@@ -7,13 +7,12 @@ import { SharedModule } from '@shared/shared.module';
 import { AppState } from '@store/app.state';
 
 @NgModule({
-  declarations: [],
-  entryComponents: [],
-  imports: [
-    CommonModule,
-    AdminPageRoutingModule,
-    SharedModule,
-    NgxsModule.forFeature([AppState]),
-  ]
+    declarations: [],
+    imports: [
+        CommonModule,
+        AdminPageRoutingModule,
+        SharedModule,
+        NgxsModule.forFeature([AppState]),
+    ]
 })
 export class AdminPageModule {}

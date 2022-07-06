@@ -7,12 +7,12 @@ import { AppState } from '@store/app.state';
 import { ServicePageRoutingModule } from './service-page-routing.module';
 
 @NgModule({
-  declarations: [],
-  entryComponents: [],
-  imports: [
-    CommonModule,
-    ServicePageRoutingModule,
-    SharedModule,
-    NgxsModule.forFeature([AppState])],
+    declarations: [],
+    imports: [
+        CommonModule,
+        ServicePageRoutingModule,
+        SharedModule,
+        NgxsModule.forFeature([AppState])
+    ]
 })
 export class ServicePageModule {}
