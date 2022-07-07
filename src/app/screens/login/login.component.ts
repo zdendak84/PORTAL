@@ -13,7 +13,6 @@ import { SnackbarService } from '@services/utility/snackbar.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  readonly fieldRequired = 'Toto pole je povinné';
   loading: boolean;
   loginForm: UntypedFormGroup;
 
@@ -49,13 +48,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  registrationNavigation(): void {
+    this.store.dispatch(new Navigate([AppRoutes.REGISTRATION]));
+  }
+
   private afterLoginNavigation(): void {
     this.store.dispatch(new Navigate([AppRoutes.HOME]));
   }
 
   private createLoginForm(): void {
     this.loginForm = this.fb.group({
-      email: [null, Validators.required],
+      email: [null, Validators.compose([Validators.required, Validators.email])],
       password: [null, Validators.required]
     });
   }

@@ -56,7 +56,7 @@ export class ChangePasswordModalComponent implements OnInit {
     if (this.passwordChangeForm.invalid) {
       return;
     }
-    this.userService.changeUserPassword({
+    this.userService.changePassword({
       accountId: this.accountId,
       oldPassword: this.oldPassword.value,
       newPassword: this.newPassword.value

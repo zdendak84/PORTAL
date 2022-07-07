@@ -1,8 +1,11 @@
 export interface AccountDataModel {
-  accountId: number;
+  accountId?: number;
   email: string;
   password: string;
   phone: string;
-  active: boolean;
-  lastLogon: string;
+  lastLogon?: string;
+  insuranceNumber: string;
+  personalIdentificationNumber: string;
+  firstName: string;
+  lastName: string;
 }

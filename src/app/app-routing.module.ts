@@ -4,6 +4,7 @@ import { AppRoutes } from './app.routes';
 import { AuthGuard } from '@shared/guards/auth.guard';
 
 import { LoginComponent } from './screens/login/login.component';
+import { RegistrationComponent } from "./screens/registration/registration.component";
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
   {
     path: AppRoutes.LOGIN,
     component: LoginComponent
+  },
+  {
+    path: AppRoutes.REGISTRATION,
+    component: RegistrationComponent
   }
 ];
 

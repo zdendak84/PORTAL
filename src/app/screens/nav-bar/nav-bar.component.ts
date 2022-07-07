@@ -1,15 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AccountDataModel } from '@shared/model/backend-api/accountDataModel';
 import { Store } from '@ngxs/store';
-import { Navigate } from '@ngxs/router-plugin';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import moment from 'moment';
 
 import { AuthenticationService } from '@services/backend-api/users/authentication.service';
 import { AuthorizeService } from '@services/backend-api/users/authorize.service';
-import { AdminPageRoutes } from '../../features/admin-page/admin-page.routes';
 import { AccountService } from '@services/backend-api/users/account.service';
-import { ServicePageRoutes } from '../../features/service-page/service-page.routes';
 import { ChangePasswordModalComponent } from '@shared/components/change-password-modal/change-password-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
@@ -25,7 +22,6 @@ export class NavBarComponent implements OnInit {
   @Input() loggedUser: AccountDataModel;
   actualDate = moment();
   loading: boolean;
-  servicePageRoutes = ServicePageRoutes;
 
   constructor(
     private authService: AuthenticationService,
@@ -57,9 +53,5 @@ export class NavBarComponent implements OnInit {
         this.snackbarService.openInfoSnackBar('Heslo bylo změněno.');
       }
     });
-  }
-
-  private navigateTo(url: string): void {
-    this.store.dispatch(new Navigate([url]));
   }
 }
