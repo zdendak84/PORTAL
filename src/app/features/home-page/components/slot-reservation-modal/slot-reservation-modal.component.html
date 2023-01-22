@@ -1,0 +1,186 @@
+<div *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<mat-horizontal-stepper linear>
+  <mat-step [stepControl]="injuryForm">
+    <form [formGroup]="injuryForm">
+      <div class="wrapper">
+        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="left">
+          <mat-form-field [style.width.px]=110>
+            <mat-label>Končetina</mat-label>
+            <mat-select formControlName="bodyPart" (selectionChange)="onChangeBodyPart()">
+              <mat-option *ngFor="let bodyPart of bodyParts" [value]="bodyPart.value">{{bodyPart.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="bodyPart.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+          <mat-form-field [style.width.px]=80>
+            <mat-label>Strana</mat-label>
+            <mat-select formControlName="side">
+              <mat-option *ngFor="let side of sides" [value]="side.value">{{side.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="side.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <mat-label>Problém</mat-label>
+            <mat-select formControlName="injury">
+              <mat-option *ngFor="let injury of filteredInjuries" [value]="injury.injury">{{injury.injury}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="side.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <input matInput maxlength="255" placeholder="Upřesnění" autocomplete="off" formControlName="injuryDescription"/>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <input matInput maxlength="255" placeholder="Obecná poznámka" autocomplete="off" formControlName="slotDescription"/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Zrušit</button>
+        <button mat-raised-button type="button" matStepperNext color="primary">Další</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="operationForm">
+    <form [formGroup]="operationForm">
+      <div class="wrapper">
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <mat-label>Operace</mat-label>
+            <mat-select formControlName="operation" (selectionChange)="onChangeOperation()">
+              <mat-option *ngFor="let operation of filteredOperations" [value]="operation.operation">{{operation.operation}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="operation.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div *ngIf="operationDetails?.length > 0" mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <mat-label>Detail operace</mat-label>
+            <mat-select formControlName="operationDetail">
+              <mat-option *ngFor="let operationDetail of operationDetails" [value]="operationDetail.operationDetail">{{operationDetail.operationDetail}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <input matInput maxlength="255" placeholder="Upřesnění" autocomplete="off" formControlName="operationDescription"/>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="row">
+          <mat-checkbox formControlName="rehabilitation">Potřeba rehabilitace</mat-checkbox>
+        </div>
+        <div *ngIf="data.maxDuration >= 20" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <button type="button" class="button" mat-raised-button matStepperNext [color]="getColor(20)" (click)="setDuration(20)" >20 MIN</button>
+          <button *ngIf="data.maxDuration >= 30" type="button" class="button" mat-raised-button matStepperNext [color]="getColor(30)" (click)="setDuration(30)" >30 MIN</button>
+        </div>
+        <div *ngIf="data.maxDuration >= 40" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <button type="button" class="button" mat-raised-button matStepperNext [color]="getColor(40)" (click)="setDuration(40)" >40 MIN</button>
+          <button *ngIf="data.maxDuration >= 60" type="button" class="button" mat-raised-button matStepperNext [color]="getColor(60)" (click)="setDuration(60)" >60 MIN</button>
+        </div>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Zrušit</button>
+        <button *ngIf="duration.value" mat-raised-button type="button" matStepperNext color="primary">Další</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="patientForm">
+    <form [formGroup]="patientForm">
+      <div class="wrapper">
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field fxFlex="0 0 100%">
+            <mat-label>Číslo pojištěnce</mat-label>
+            <input matInput appNumberOnly [onlyNumberLength]="10" autocomplete="off" formControlName="insuranceNumber" (change)="onChangeInsuranceNumber()"/>
+            <mat-error *ngIf="insuranceNumber.hasError('pattern')">{{wrongFormat}}</mat-error>
+            <mat-error *ngIf="insuranceNumber.hasError('required')">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field fxFlex="0 0 100%">
+            <mat-label>Přijmení</mat-label>
+            <input matInput maxlength="35" autocomplete="off" formControlName="lastName" (change)="onChangeLastName()"/>
+            <mat-error *ngIf="lastName.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field fxFlex="0 0 100%">
+            <mat-label>Jméno</mat-label>
+            <input matInput maxlength="24" autocomplete="off" formControlName="firstName" (change)="onChangeFirstName()"/>
+            <mat-error *ngIf="firstName.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <mat-label>Telefon</mat-label>
+            <input matInput maxlength="15" autocomplete="off" formControlName="telephone"/>
+            <mat-error *ngIf="telephone.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <mat-label>E-mail</mat-label>
+            <input matInput maxlength="50" autocomplete="off" placeholder="E-mail" formControlName="email" (change)="onChangeEmail()"/>
+            <mat-error *ngIf="email.hasError('pattern')">{{wrongFormat}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <mat-label>Pojišťovna</mat-label>
+            <mat-select formControlName="insuranceId">
+              <mat-option *ngFor="let insurance of insurances" [value]="insurance.insuranceId">{{insurance.insuranceId}} - {{insurance.insuranceName}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="insuranceId.invalid">{{fieldRequired}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-actions>
+          <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Zrušit</button>
+          <button mat-raised-button type="button" matStepperNext color="primary">Další</button>
+        </div>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="patientForm">
+    <form [formGroup]="patientForm">
+      <div class="wrapper">
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <mat-label>Ulice</mat-label>
+            <input matInput maxlength="35" autocomplete="off" formControlName="street" (change)="onChangeStreet()"/>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="left">
+          <mat-form-field [style.width.px]=95>
+            <mat-label>Č. popisné</mat-label>
+            <input matInput maxlength="12" autocomplete="off" formControlName="registrationBuildingNumber"/>
+          </mat-form-field>
+          <mat-form-field [style.width.px]=95>
+            <mat-label>Č. orientační</mat-label>
+            <input matInput maxlength="4" autocomplete="off" formControlName="buildingNumber"/>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <mat-label>Obec</mat-label>
+            <input matInput maxlength="48" autocomplete="off" formControlName="city" (change)="onChangeCity()"/>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="column">
+          <mat-form-field>
+            <mat-label>PSČ</mat-label>
+            <input matInput maxlength="5" autocomplete="off" formControlName="zipCode"/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Zrušit</button>
+        <button mat-raised-button type="button" color="primary" matBadge="{{duration.value}}" matBadgePosition="after" matBadgeColor="accent" (click)="onSubmit()">Rezervovat</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>

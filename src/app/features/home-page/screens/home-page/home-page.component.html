@@ -1,16 +1,59 @@
-<div class="card-wrapper">
-  <h2>Uživatel je přihlášen</h2>
+<div *ngIf="loading">
+  <app-spinner></app-spinner>
 </div>
+<form [formGroup]="searchForm" *ngIf="!loading">
+  <div class="card-wrapper">
+    <div fxLayout="column" fxLayoutGap="10px"  [style.max-width.%]="device.isDesktop ? 30 : 100">
+        <div *ngIf="locations?.length > 0" fxLayout="row" fxLayoutAlign="left center">
+          <mat-form-field fxFlex="0 0 100%">
+            <mat-select formControlName="locationId" placeholder="Vyberte zařízení" (selectionChange)="onChanges();">
+              <mat-option *ngFor="let location of locations" [value]="location.locationId">{{location.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="locationId.value" fxLayout="row" fxLayoutAlign="left center">
+          <mat-form-field fxFlex="0 0 100%">
+            <mat-select formControlName="workplaceId" placeholder="Vyberte pracoviště" (selectionChange)="onChanges();">
+              <mat-option *ngFor="let workplace of workplaces" [value]="workplace.workplaceId">{{workplace.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="((!locationId.value || !workplaceId.value) && locations?.length > 0)" fxLayout="row" fxLayoutAlign="left center">
+          <span style="color: red;" fxLayoutAlign="space-around center"><mat-icon>warning</mat-icon> Vyberte zařízení a pracoviště <mat-icon>warning</mat-icon></span>
+        </div>
+        <div *ngIf="(!(locations?.length > 0))" fxLayout="row" fxLayoutAlign="left center">
+            <span style="color: red;" fxLayoutAlign="space-around center"><mat-icon>warning</mat-icon> Nejsou k dispozici lokality pro objednávání <mat-icon>warning</mat-icon></span>
+        </div>
+        <button *ngIf="isValid" mat-raised-button type="button" color="primary" (click)="toListing()">Přejít do kalendáře</button>
+        <div *ngIf="isValid" fxLayout="column" fxLayoutGap="10px">&nbsp;<br><mat-divider></mat-divider></div>
+        <div *ngIf="isValid" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="left">
+            <mat-form-field [style.width.px]=160>
+                <input matInput placeholder="Datum od" formControlName="dateFrom" [matDatepicker]="pickerDateFrom"/>
+                <mat-datepicker-toggle matSuffix [for]="pickerDateFrom"></mat-datepicker-toggle>
+                <mat-datepicker #pickerDateFrom></mat-datepicker>
+                <mat-error *ngIf="dateFrom.hasError('required')">{{fieldRequired}}</mat-error>
+            </mat-form-field>
+            <mat-form-field [style.width.px]=160>
+                <input matInput placeholder="Datum do" formControlName="dateTo" [matDatepicker]="pickerDateTo"/>
+                <mat-datepicker-toggle matSuffix [for]="pickerDateTo"></mat-datepicker-toggle>
+                <mat-datepicker #pickerDateTo></mat-datepicker>
+                <mat-error *ngIf="dateTo.hasError('required')">{{fieldRequired}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div *ngIf="isValid" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="left">
+            <button *ngIf="isValid" mat-raised-button type="button" color="accent" (click)="setPeriod(-1)">MINULÝ</button>
+            <button *ngIf="isValid" mat-raised-button type="button" color="accent" (click)="setPeriod(0)">AKTUÁLNÍ</button>
+            <button *ngIf="isValid" mat-raised-button type="button" color="primary" [disabled]="!(dateFrom.value && dateTo.value)" (click)="exportAsExcelFile()">Export do Excelu</button>
+        </div>
+        <div *ngIf="isValid && instruction" fxLayout="column" fxLayoutGap="10px">&nbsp;<br><mat-divider></mat-divider></div>
+    </div>
+    <div *ngIf="workplaceId.value && instruction" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="left center">
+        <p class="instruction" [innerHTML]="instruction"></p>
+    </div>
+  </div>
+</form>
 <footer>
-  <div fxLayout="row" fxLayoutGap="15px">
-    <div fxFlex="0 0 33%" style="padding-left: 10px;">
-      <p><b>PORTÁL PACIENTA</b></p>
-    </div>
-    <div fxFlex="0 0 32%" style="text-align: center">
-      <p>AKESO Holding a.s.</p>
-    </div>
-    <div fxFlex="0 0 32%" style="text-align: right">
-      <button mat-mini-fab matTooltip="Aktualizovat" color="accent"><mat-icon>refresh</mat-icon> </button>
-    </div>
+  <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
+    <b>AMOS MOBILE (v230122)</b>
   </div>
 </footer>

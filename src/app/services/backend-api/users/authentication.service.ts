@@ -7,7 +7,7 @@ import { Navigate } from '@ngxs/router-plugin';
 import { AuthenticationResponseDataModel } from '@shared/model/backend-api/authenticationResponseDataModel';
 import { AuthenticationRequestDataModel } from '@shared/model/backend-api/authenticationRequestDataModel';
 import { Store } from '@ngxs/store';
-import { CleanStore, SetAccountBasicData } from '@store/app.actions';
+import { CleanStore, SetUserBasicData } from '@store/app.actions';
 import { AppRoutes } from '../../../app.routes';
 
 const URL_POST_LOGIN = 'api/authenticate';
@@ -21,17 +21,17 @@ export class AuthenticationService {
 
   login(loginData: AuthenticationRequestDataModel): Observable<AuthenticationResponseDataModel> {
     return this.http.post<AuthenticationResponseDataModel>(URL_POST_LOGIN, loginData)
-      .pipe(map(account => {
-        if (account.account && account.jwt) {
-          sessionStorage.setItem('account', JSON.stringify(account));
-          this.store.dispatch(new SetAccountBasicData(account));
+      .pipe(map(user => {
+        if (user.user && user.jwt) {
+          sessionStorage.setItem('user', JSON.stringify(user));
+          this.store.dispatch(new SetUserBasicData(user));
         }
-        return account;
+        return user;
       }));
   }
 
   logout(): void {
-    sessionStorage.removeItem('account');
+    sessionStorage.removeItem('user');
     this.store.dispatch(new CleanStore());
     this.store.dispatch(new Navigate([AppRoutes.LOGIN]));
   }

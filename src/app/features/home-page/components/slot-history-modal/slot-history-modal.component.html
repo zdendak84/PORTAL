@@ -1,0 +1,13 @@
+<div *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<h1 mat-dialog-title>Historie slotu ({{data.slotId}})</h1>
+<div fxLayout="row" *ngFor="let history of slotHistory">
+  <div fxFlex="0 0 55%">{{history.date | date: 'dd.MM.yyyy'}} {{history.time | timeFormat}}<br>
+    <span style="font-size: 11px" [style.background-color]="getActionDetail(history.action, true)">{{getActionDetail(history.action, false)}}</span>
+  </div>
+  <div fxFlex="0 0 45%">{{history.userName}}</div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button type="button" color="primary" (click)="onNoClick()">Zavřít</button>
+</div>

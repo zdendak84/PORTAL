@@ -1,0 +1,6 @@
+<form [formGroup]="searchForm">
+  <mat-form-field fxFlex="0 0 100%">
+    <input matInput type="text" (keyup)="onChange()" [readonly]="!enabled" placeholder="Vyhledat" formControlName="search"/>
+    <mat-icon color="warn" matSuffix matTooltip="Vymazat vyhledávání" (click)="cleanSearchInput()">clear</mat-icon>
+  </mat-form-field>
+</form>

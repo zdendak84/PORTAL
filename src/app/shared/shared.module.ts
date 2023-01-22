@@ -13,18 +13,22 @@ import { MaterialModule } from '@shared/material.module';
 import { OnlyNumberDirective } from '@shared/directives/only-number.directive';
 import { ChangePasswordModalComponent } from '@shared/components/change-password-modal/change-password-modal.component';
 import { EventModalComponent } from "@shared/components/event-modal/event-modal.component";
+import { TimeFormatPipe } from "@shared/pipes/timeFormater/time-format.pipe";
+import { FilterUserInputComponent } from '@shared/filters/filter-userInput/filter-userInput.component';
 
 @NgModule({
     declarations: [
         ToolbarComponent,
         StatusPipe,
+        TimeFormatPipe,
         SnackBarComponent,
         YesNoModalComponent,
         SpinnerComponent,
         DescriptionModalComponent,
         OnlyNumberDirective,
         ChangePasswordModalComponent,
-        EventModalComponent
+        EventModalComponent,
+        FilterUserInputComponent
     ],
     providers: [AuthGuard],
     imports: [
@@ -45,7 +49,9 @@ import { EventModalComponent } from "@shared/components/event-modal/event-modal.
         DescriptionModalComponent,
         MaterialModule,
         OnlyNumberDirective,
-        ChangePasswordModalComponent
+        ChangePasswordModalComponent,
+        TimeFormatPipe,
+        FilterUserInputComponent
     ]
 })
 export class SharedModule { }

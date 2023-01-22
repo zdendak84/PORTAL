@@ -1,14 +1,14 @@
 <div class="bg-img">
-  <div class="centered-wrapper">
+  <div class="centered-wrapper" [style.width.%]="device.isDesktop ? 20 : 80">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-card>
         <mat-card-header fxLayout="row" fxLayoutAlign="center center">
-          <mat-card-title><b>PORTÁL PACIENTA</b></mat-card-title>
+          <mat-card-title><b>AMOS MOBILE</b></mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <mat-form-field fxLayout="column">
-            <input matInput autocomplete="off" formControlName="email"/>
-            <mat-label>Email</mat-label>
+            <input matInput autocomplete="off" formControlName="userName"/>
+            <mat-label>Uživatelské jméno</mat-label>
           </mat-form-field>
           <mat-form-field fxLayout="column">
             <input matInput type="password" autocomplete="off" formControlName="password"/>
@@ -23,9 +23,6 @@
             <div fxLayout="row" fxLayoutAlign="center center">
               <mat-spinner diameter="35"></mat-spinner>
             </div>
-          </button>
-          <button type="button" mat-raised-button color="accent" (click)="registrationNavigation()">
-            Zaregistrovat
           </button>
         </mat-card-actions>
       </mat-card>

@@ -3,17 +3,17 @@ import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { AccountDataModel } from "@shared/model/backend-api/accountDataModel";
+import {UserDataModel} from "@shared/model/backend-api/userDataModel";
 
 @UntilDestroy()
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeService {
-  loggedAccount: AccountDataModel;
+  loggedUser: UserDataModel;
   constructor(private store: Store) {
-    this.store.select(AppState.accountBasicData).pipe(untilDestroyed(this)).subscribe(accountData => {
-      if (accountData) { this.loggedAccount = accountData.account; }
+    this.store.select(AppState.userBasicData).pipe(untilDestroyed(this)).subscribe(userData => {
+      if (userData) { this.loggedUser = userData.user; }
     });
   }
 }

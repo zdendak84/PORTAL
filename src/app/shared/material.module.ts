@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -32,6 +33,7 @@ import { getCzechPaginatorIntl } from '@shared/utils/czech-paginator';
   imports: [
     MatAutocompleteModule,
     MatButtonModule,
+    MatBadgeModule,
     MatCardModule,
     MatCheckboxModule,
     MatChipsModule,
@@ -61,6 +63,7 @@ import { getCzechPaginatorIntl } from '@shared/utils/czech-paginator';
   ],
   exports: [
     MatAutocompleteModule,
+    MatBadgeModule,
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,

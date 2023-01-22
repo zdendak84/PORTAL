@@ -1,20 +1,8 @@
 <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center" *ngIf="loggedUser">
-  <div>
-    <button mat-icon-button [matMenuTriggerFor]="adminMenu">
-      <mat-icon matTooltip="Administrace">more_vert</mat-icon>
-    </button>
-    <mat-menu #adminMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item >
-        <mat-icon>today</mat-icon> Moje objednávky
-      </button>
-    </mat-menu>
-  </div>
-  <span fxFlex></span>
   <button mat-button routerLink="/" [routerLinkActiveOptions]="{exact:true}" [routerLinkActive]="'is-active'">
-    <mat-icon matTooltip="Dashboard">home</mat-icon>
+    <mat-icon>home</mat-icon>
   </button>
   <span fxFlex></span>
-  {{ actualDate.toDate() | date : 'dd.MM.yyyy' }}
   <button mat-button [matMenuTriggerFor]="userMenu">
     <mat-icon>account_box</mat-icon>{{ userNameWithTitle }}
   </button>

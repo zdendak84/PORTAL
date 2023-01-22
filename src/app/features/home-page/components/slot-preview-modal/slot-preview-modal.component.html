@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{data.slot.lastName}} {{data.slot.firstName}} ({{data.slot.yearOfBirth}})<br>{{data.slot.telephone}}</h1>
+<div fxLayout="column" fxLayoutGap="10px">
+  <span>{{data.slot.bodyPartText}}, {{data.slot.sideText}}</span>
+  <span>{{data.slot.injury}}</span>
+  <span *ngIf="data.slot.injuryDescription">{{data.slot.injuryDescription}}</span>
+  <mat-divider></mat-divider>
+  <span>{{data.slot.operation}} ({{data.slot.duration}} min.)</span>
+  <span *ngIf="data.slot.operationDetail">{{data.slot.operationDetail}}</span>
+  <span *ngIf="data.slot.operationDescription">{{data.slot.operationDescription}}</span>
+  <mat-divider></mat-divider>
+  <span *ngIf="data.slot.rehabilitation">Rehabilitace ano</span>
+  <span style="color: red">{{data.slot.description}}</span>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button type="button" color="primary" (click)="onNoClick()">Zavřít</button>
+</div>

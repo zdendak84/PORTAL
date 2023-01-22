@@ -17,11 +17,10 @@ import { JwtInterceptor } from '@services/interceptors/jwt.interceptor';
 import { NavBarComponent } from './screens/nav-bar/nav-bar.component';
 import { NgIdleModule } from '@ng-idle/core';
 import { MaterialModule } from '@shared/material.module';
-import { RegistrationComponent } from "./screens/registration/registration.component";
 
 @NgModule({
   declarations: [
-    AppComponent, LoginComponent, NavBarComponent, RegistrationComponent
+    AppComponent, LoginComponent, NavBarComponent
   ],
   imports: [
     NgxsModule.forRoot([AppState], {developmentMode: !environment.production}),
