@@ -4,9 +4,11 @@ import { BODYPART, SIDE} from "@shared/constants/dropdown.constants";
 import { Component, Inject, OnInit } from '@angular/core';
 import { InjuryCodebook } from "@shared/model/backend-api/codebooks/injuryCodebook";
 import { InsuranceCodebook } from "@shared/model/backend-api/codebooks/insuranceCodebook";
+import { ListingDataModel } from "@shared/model/backend-api/listingDataModel";
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
 import { OperationCodebook } from "@shared/model/backend-api/codebooks/operationCodebook";
+import { PatientDataModel } from "@shared/model/backend-api/patientDataModel";
 import { PatientService } from "@services/backend-api/patient/patient.service";
 import { SlotService } from '@services/backend-api/slot/slot.service';
 import { Store } from "@ngxs/store";
@@ -24,6 +26,7 @@ export class SlotReservationModalComponent implements OnInit {
   readonly IDS_REGEX = /^[0-9]{9,10}$/;
   readonly bodyParts = BODYPART;
   readonly sides = SIDE;
+  edit = false;
   injuries: InjuryCodebook[];
   filteredInjuries: InjuryCodebook[];
   insurances: InsuranceCodebook[];
@@ -31,6 +34,7 @@ export class SlotReservationModalComponent implements OnInit {
   filteredOperations: OperationCodebook[];
   operationDetails: OperationCodebook[];
   loading = false;
+  addressForm: FormGroup;
   injuryForm: FormGroup;
   operationForm: FormGroup;
   patientForm: FormGroup;
@@ -40,43 +44,31 @@ export class SlotReservationModalComponent implements OnInit {
     private slotService: SlotService,
     private patientService: PatientService,
     public dialogRef: MatDialogRef<SlotReservationModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {slotId: number; minDuration: number; maxDuration: number}
+    @Inject(MAT_DIALOG_DATA) public data: {slot: ListingDataModel; minDuration: number; maxDuration: number}
   ) {}
 
   get bodyPart(): AbstractControl {
     return this.injuryForm.get('bodyPart');
   }
 
+  get buildingNumber(): AbstractControl {
+    return this.addressForm.get('buildingNumber');
+  }
+
+  get city(): AbstractControl {
+    return this.addressForm.get('city');
+  }
+
+  get dayOfBirth(): AbstractControl {
+    return this.patientForm.get('dayOfBirth');
+  }
+
   get description(): AbstractControl {
     return this.injuryForm.get('slotDescription');
   }
 
-  get injury(): AbstractControl {
-    return this.injuryForm.get('injury');
-  }
-
-  get side(): AbstractControl {
-    return this.injuryForm.get('side');
-  }
-
   get duration(): AbstractControl {
     return this.operationForm.get('duration');
-  }
-
-  get operation(): AbstractControl {
-    return this.operationForm.get('operation');
-  }
-
-  get operationDetail(): AbstractControl {
-    return this.operationForm.get('operationDetail');
-  }
-
-  get rehabilitation(): AbstractControl {
-    return this.operationForm.get('rehabilitation');
-  }
-
-  get city(): AbstractControl {
-    return this.patientForm.get('city');
   }
 
   get email(): AbstractControl {
@@ -91,6 +83,10 @@ export class SlotReservationModalComponent implements OnInit {
     return this.patientForm.get('gender');
   }
 
+  get injury(): AbstractControl {
+    return this.injuryForm.get('injury');
+  }
+
   get insuranceId(): AbstractControl {
     return this.patientForm.get('insuranceId');
   }
@@ -103,35 +99,74 @@ export class SlotReservationModalComponent implements OnInit {
     return this.patientForm.get('lastName');
   }
 
+  get mpiId(): AbstractControl {
+    return this.patientForm.get('mpiId');
+  }
+
+  get operation(): AbstractControl {
+    return this.operationForm.get('operation');
+  }
+
+  get operationDetail(): AbstractControl {
+    return this.operationForm.get('operationDetail');
+  }
+
   get patientId(): AbstractControl {
     return this.patientForm.get('patientId');
   }
 
+  get registrationBuildingNumber(): AbstractControl {
+    return this.addressForm.get('registrationBuildingNumber');
+  }
+
+  get rehabilitation(): AbstractControl {
+    return this.operationForm.get('rehabilitation');
+  }
+
+  get side(): AbstractControl {
+    return this.injuryForm.get('side');
+  }
+
   get street(): AbstractControl {
-    return this.patientForm.get('street');
+    return this.addressForm.get('street');
   }
 
   get telephone(): AbstractControl {
     return this.patientForm.get('telephone');
   }
 
+  get zipCode(): AbstractControl {
+    return this.addressForm.get('zipCode');
+  }
+
   ngOnInit(): void {
     this.injuries = this.store.selectSnapshot(AppState.injury);
     this.insurances = this.store.selectSnapshot(AppState.insurance);
     this.operations = this.store.selectSnapshot(AppState.operation);
+
+    this.edit = !!this.data.slot.patientId;
+    this.createAddressForm();
     this.createInjuryForm();
     this.createOperationForm();
     this.createPatientForm();
-  }
 
-  /*
-  changeDuration(shift: number): void {
-    const duration = +this.duration.value + (shift * this.data.minDuration);
-    if (duration >= this.data.minDuration && duration <= this.data.maxDuration) {
-      this.duration.setValue(duration);
+    if (this.edit) {
+      this.loading = true;
+
+      const bodyPart = this.data.slot.bodyPart;
+      this.filterInjuries(bodyPart);
+      this.filterOperations(bodyPart);
+      this.filterOperationDetails();
+
+      this.patientService.getPatientById(this.data.slot.patientId).subscribe(data => {
+        if (data) {
+          this.updateAddressForm(data);
+          this.updatePatientForm(data);
+        }
+        this.loading = false;
+      });
     }
   }
-  */
 
   getColor(duration: number): ThemePalette {
     return this.duration.value === duration ? 'accent' : 'primary';
@@ -140,19 +175,16 @@ export class SlotReservationModalComponent implements OnInit {
   onChangeBodyPart(): void {
     this.injury.reset();
     this.operation.reset();
-    this.filteredInjuries = this.injuries.filter(f => f.bodyPart === this.bodyPart.value);
-    this.filteredOperations = [];
-    this.operations.filter(f => f.bodyPart === this.bodyPart.value).map(o => {
-      if (this.filteredOperations.filter(f => f.operation === o.operation).length === 0) {
-        this.filteredOperations.push(o);
-      }
-    });
+    const bodyPart = this.bodyPart.value;
+    this.filterInjuries(bodyPart);
+    this.filterOperations(bodyPart);
   }
 
   onChangeOperation(): void {
     this.operationDetail.reset();
-    this.operationDetails = this.operations.filter(f => f.operation === this.operation.value && f.operationDetail !== null);
+    this.filterOperationDetails();
   }
+
 
   onChangeCity(): void {
     if (this.city.value.length > 0) {
@@ -195,20 +227,8 @@ export class SlotReservationModalComponent implements OnInit {
           registrationBuildingNumber : null, city : null, zipCode : null, telephone : null,
           email : null, patientId : null, mpiId : null}
 
-        this.patientForm.get('firstName').setValue(patient.firstName);
-        this.patientForm.get('lastName').setValue(patient.lastName);
-        this.patientForm.get('insuranceId').setValue(patient.insuranceId);
-        this.patientForm.get('gender').setValue(patient.gender);
-        this.patientForm.get('dayOfBirth').setValue(patient.dayOfBirth);
-        this.patientForm.get('street').setValue(patient.street);
-        this.patientForm.get('buildingNumber').setValue(patient.buildingNumber);
-        this.patientForm.get('registrationBuildingNumber').setValue(patient.registrationBuildingNumber);
-        this.patientForm.get('city').setValue(patient.city, {emitEvent: false});
-        this.patientForm.get('zipCode').setValue(patient.zipCode);
-        this.patientForm.get('telephone').setValue(patient.telephone);
-        this.patientForm.get('email').setValue(patient.email);
-        this.patientForm.get('patientId').setValue(patient.patientId);
-        this.patientForm.get('mpiId').setValue(patient.mpiId);
+        this.updateAddressForm(patient);
+        this.updatePatientForm(patient);
         this.loading = false;
         if (patient.patientId === null) {
           this.parseInsuranceNumber(insuranceNumber);
@@ -227,8 +247,9 @@ export class SlotReservationModalComponent implements OnInit {
     }
     const operation = {...this.injuryForm.value, ...this.operationForm.value,
       rehabilitation: this.rehabilitation.value ? (this.rehabilitation.value ? 1 : 0) : 0};
-    const formData = {operation: operation, patient: this.patientForm.value, description: this.description.value};
-    this.dialogRef.close({event: ModalEventEnum.Create, data: formData});
+    const patient = {...this.addressForm.value, ...this.patientForm.value}
+    const formData = {operation: operation, patient: patient, description: this.description.value};
+    this.dialogRef.close({event: this.edit ? ModalEventEnum.Edit : ModalEventEnum.Create, data: formData});
   }
 
   setDuration(duration: number): void {
@@ -239,23 +260,37 @@ export class SlotReservationModalComponent implements OnInit {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
+  private createAddressForm(): void {
+    this.addressForm = this.fb.group({
+      street: [null, Validators.required],
+      buildingNumber: [null, Validators.required],
+      registrationBuildingNumber: [null],
+      city: [null, Validators.required],
+      zipCode: [null, Validators.required]
+    });
+  }
+
   private createInjuryForm(): void {
+    const edit = this.edit;
+    const data = this.data.slot;
     this.injuryForm = this.fb.group({
-      side: [null, Validators.required],
-      bodyPart: [null, Validators.required],
-      injury: [null, Validators.required],
-      injuryDescription: [null],
-      slotDescription: [null]
+      side: [edit ? data.side : null, Validators.required],
+      bodyPart: [edit ? data.bodyPart : null, Validators.required],
+      injury: [edit ? data.injury : null, Validators.required],
+      injuryDescription: [edit ? data.injuryDescription : null],
+      slotDescription: [edit ? data.description : null]
     });
   }
 
   private createOperationForm(): void {
+    const edit = this.edit;
+    const data = this.data.slot;
     this.operationForm = this.fb.group({
-      operation: [null, Validators.required],
-      operationDetail: [null],
-      operationDescription: [null],
-      rehabilitation: [null],
-      duration: [this.data.minDuration, Validators.required]
+      operation: [edit ? data.operation : null, Validators.required],
+      operationDetail: [edit ? data.operationDetail : null],
+      operationDescription: [edit ? data.operationDescription : null],
+      rehabilitation: [edit ? data.rehabilitation : null],
+      duration: [edit ? data.duration : this.data.minDuration, Validators.required]
     });
   }
 
@@ -267,11 +302,6 @@ export class SlotReservationModalComponent implements OnInit {
       insuranceId: [null, Validators.required],
       gender: [null],
       dayOfBirth: [null],
-      street: [null],
-      buildingNumber: [null],
-      registrationBuildingNumber: [null],
-      city: [null],
-      zipCode: [null],
       telephone: [null, Validators.required],
       email: [null, Validators.pattern(this.EMAIL_REGEX)],
       patientId: [null],
@@ -283,6 +313,23 @@ export class SlotReservationModalComponent implements OnInit {
     return (value === value.toUpperCase()) ? value.toLowerCase() : value;
   }
 
+  filterInjuries(bodyPart: number): void {
+    this.filteredInjuries = this.injuries.filter(f => f.bodyPart === bodyPart);
+  }
+
+  filterOperations(bodyPart: number): void {
+    this.filteredOperations = [];
+    this.operations.filter(f => f.bodyPart === bodyPart).map(o => {
+      if (this.filteredOperations.filter(f => f.operation === o.operation).length === 0) {
+        this.filteredOperations.push(o);
+      }
+    });
+  }
+
+  filterOperationDetails(): void {
+    this.operationDetails = this.operations.filter(f => f.operation === this.operation.value && f.operationDetail !== null);
+  }
+
   private parseInsuranceNumber(insuranceNumber: string): void {
     const yearYY = +insuranceNumber.substring(0, 2);
     const monthMM = +insuranceNumber.substring(2, 4);
@@ -291,7 +338,7 @@ export class SlotReservationModalComponent implements OnInit {
     const month = (monthMM < 50) ? monthMM : (monthMM - 50);
 
     if (day > 0 && day < 32 && month > 0 && month < 13 && year > 1899 && year < 2100) {
-      this.patientForm.get('dayOfBirth').setValue(`${year}-${month}-${day}`);
+      this.dayOfBirth.setValue(`${year}-${month}-${day}`);
       this.gender.setValue(((monthMM < 50) ? 1 : 2));
     }
 
@@ -315,5 +362,26 @@ export class SlotReservationModalComponent implements OnInit {
       }, 5000);
     }
      */
+  }
+
+  private updateAddressForm(patient: PatientDataModel): void {
+    this.street.setValue(patient.street);
+    this.buildingNumber.setValue(patient.buildingNumber);
+    this.registrationBuildingNumber.setValue(patient.registrationBuildingNumber);
+    this.city.setValue(patient.city, {emitEvent: false});
+    this.zipCode.setValue(patient.zipCode);
+  }
+
+  private updatePatientForm(patient: PatientDataModel): void {
+    this.insuranceNumber.setValue(patient.insuranceNumber);
+    this.firstName.setValue(patient.firstName);
+    this.lastName.setValue(patient.lastName);
+    this.insuranceId.setValue(patient.insuranceId);
+    this.telephone.setValue(patient.telephone);
+    this.email.setValue(patient.email);
+    this.gender.setValue(patient.gender);
+    this.dayOfBirth.setValue(patient.dayOfBirth);
+    this.patientId.setValue(patient.patientId);
+    this.mpiId.setValue(patient.mpiId);
   }
 }

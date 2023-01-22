@@ -157,7 +157,7 @@ export class DailyListingComponent implements OnInit {
         this.describeOrder(slot);
         return;
       case SlotActionEnum.edit:
-        this.snackbarService.openErrorSnackBar('Pracuji na tom ;)');
+        this.slotReservation(slot);
         return;
       case SlotActionEnum.history:
         this.showHistory(slot);
@@ -252,13 +252,29 @@ export class DailyListingComponent implements OnInit {
 
   /* rezervace terminu */
   private slotReservation(slot: ListingDataModel): void {
+    let freeTime = 0
+    if (slot.patientId) {
+      this.dataSource.data.filter(f => f.timeFrom > slot.timeFrom && f.type === 1).map(m => {
+        freeTime = freeTime + m.duration;
+      });
+    }
     const minDuration = this.examinations.find(f => f.examinationId === slot.examinationId).duration;
+    const maxDuration = slot.patientId ? freeTime + slot.duration : slot.duration;
     let dialog;
     dialog = this.dialog.open(SlotReservationModalComponent, {
       disableClose: true,
-      width: this.dialogWidth, data: { slotId: slot.slotId, minDuration, maxDuration: slot.duration }
+      width: this.dialogWidth, data: { slot, minDuration, maxDuration }
     });
     dialog.afterClosed().pipe(untilDestroyed(this)).subscribe(result => {
+      if (result.event === ModalEventEnum.Edit) {
+        this.slotService.updateOperation(slot.slotId, result.data.patient, result.data.operation, result.data.description).subscribe(data => {
+          if (data) {
+            this.getListing();
+          } else {
+            this.snackbarService.openErrorSnackBar('Objednávku se nepodařilo upravit');
+          }
+        });
+      }
       if (result.event === ModalEventEnum.Create) {
         this.slotService.reserveOperation(slot.slotId, result.data.patient, result.data.operation, result.data.description).subscribe(data => {
           if (data) {

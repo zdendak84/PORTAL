@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import { SlotHistoryDataModel } from '@shared/model/backend-api/slotHistoryDataModel';
+import { OperationDataModel } from "@shared/model/backend-api/operationDataModel";
+import { PatientDataModel } from "@shared/model/backend-api/patientDataModel";
 import { ResultDataModel } from '@shared/model/backend-api/resultDataModel';
-import {PatientDataModel} from "@shared/model/backend-api/patientDataModel";
-import {OperationDataModel} from "@shared/model/backend-api/operationDataModel";
+import { SlotHistoryDataModel } from '@shared/model/backend-api/slotHistoryDataModel';
 
 const URL_GET_SLOT_HISTORY = 'api/slot-history/{slotId}/{patientId}';
 const URL_POST_SLOT_ACTION = 'api/slot-action';
@@ -34,6 +33,11 @@ export class SlotService {
 
   reserveOperation(slotId: number, patient: PatientDataModel, operation: OperationDataModel, description: String): Observable<ResultDataModel> {
     const slotAction = {slotId: slotId, patient: patient, operation: operation, action: 'reserveOperation', description: description}
+    return this.http.post<ResultDataModel>(URL_POST_SLOT_ACTION, slotAction);
+  }
+
+  updateOperation(slotId: number, patient: PatientDataModel, operation: OperationDataModel, description: String): Observable<ResultDataModel> {
+    const slotAction = {slotId: slotId, patient: patient, operation: operation, action: 'updateOperation', description: description}
     return this.http.post<ResultDataModel>(URL_POST_SLOT_ACTION, slotAction);
   }
 

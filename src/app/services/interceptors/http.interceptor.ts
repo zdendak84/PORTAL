@@ -13,13 +13,7 @@ export class APIInterceptor implements HttpInterceptor {
   constructor(@Inject('BASE_API_URL') private baseUrl: string, private authService: AuthenticationService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const apiReq = req.clone({
-      url: this.baseUrl + req.url,
-      headers: req.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate')
-          .set('Pragma', 'no-cache')
-          .set('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT')
-          .set('If-Modified-Since', '0')
-    });
+    const apiReq = req.clone({ url: this.baseUrl + req.url });
     return next.handle(apiReq).pipe(catchError(err => {
       if (err.status === 401) {
         this.authService.logout();

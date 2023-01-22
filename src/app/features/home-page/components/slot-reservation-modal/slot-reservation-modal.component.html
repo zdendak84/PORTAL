@@ -73,7 +73,7 @@
           </mat-form-field>
         </div>
         <div mat-dialog-content fxLayout="row">
-          <mat-checkbox formControlName="rehabilitation">Potřeba rehabilitace</mat-checkbox>
+          <mat-checkbox formControlName="rehabilitation">Rehabilitace</mat-checkbox>
         </div>
         <div *ngIf="data.maxDuration >= 20" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
           <button type="button" class="button" mat-raised-button matStepperNext [color]="getColor(20)" (click)="setDuration(20)" >20 MIN</button>
@@ -96,7 +96,7 @@
         <div mat-dialog-content fxLayout="column">
           <mat-form-field fxFlex="0 0 100%">
             <mat-label>Číslo pojištěnce</mat-label>
-            <input matInput appNumberOnly [onlyNumberLength]="10" autocomplete="off" formControlName="insuranceNumber" (change)="onChangeInsuranceNumber()"/>
+            <input matInput appNumberOnly [onlyNumberLength]="10" autocomplete="off" formControlName="insuranceNumber" [readonly]="edit" (change)="onChangeInsuranceNumber()"/>
             <mat-error *ngIf="insuranceNumber.hasError('pattern')">{{wrongFormat}}</mat-error>
             <mat-error *ngIf="insuranceNumber.hasError('required')">{{fieldRequired}}</mat-error>
           </mat-form-field>
@@ -145,19 +145,21 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="patientForm">
-    <form [formGroup]="patientForm">
+  <mat-step [stepControl]="addressForm">
+    <form [formGroup]="addressForm">
       <div class="wrapper">
         <div mat-dialog-content fxLayout="column">
           <mat-form-field>
             <mat-label>Ulice</mat-label>
             <input matInput maxlength="35" autocomplete="off" formControlName="street" (change)="onChangeStreet()"/>
+            <mat-error *ngIf="street.invalid">{{fieldRequired}}</mat-error>
           </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="left">
           <mat-form-field [style.width.px]=95>
             <mat-label>Č. popisné</mat-label>
             <input matInput maxlength="12" autocomplete="off" formControlName="registrationBuildingNumber"/>
+            <mat-error *ngIf="registrationBuildingNumber.invalid">{{fieldRequired}}</mat-error>
           </mat-form-field>
           <mat-form-field [style.width.px]=95>
             <mat-label>Č. orientační</mat-label>
@@ -168,18 +170,20 @@
           <mat-form-field>
             <mat-label>Obec</mat-label>
             <input matInput maxlength="48" autocomplete="off" formControlName="city" (change)="onChangeCity()"/>
+            <mat-error *ngIf="city.invalid">{{fieldRequired}}</mat-error>
           </mat-form-field>
         </div>
         <div mat-dialog-content fxLayout="column">
           <mat-form-field>
             <mat-label>PSČ</mat-label>
             <input matInput maxlength="5" autocomplete="off" formControlName="zipCode"/>
+            <mat-error *ngIf="zipCode.invalid">{{fieldRequired}}</mat-error>
           </mat-form-field>
         </div>
       </div>
       <div mat-dialog-actions>
         <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Zrušit</button>
-        <button mat-raised-button type="button" color="primary" matBadge="{{duration.value}}" matBadgePosition="after" matBadgeColor="accent" (click)="onSubmit()">Rezervovat</button>
+        <button mat-raised-button type="button" color="primary" matBadge="{{duration.value}}" matBadgePosition="after" matBadgeColor="accent" (click)="onSubmit()">{{edit ? 'Upravit' : 'Rezervovat'}}</button>
       </div>
     </form>
   </mat-step>
