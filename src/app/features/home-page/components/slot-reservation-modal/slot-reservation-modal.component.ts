@@ -291,7 +291,7 @@ export class SlotReservationModalComponent implements OnInit {
       operationDetail: [edit ? data.operationDetail : null],
       operationDescription: [edit ? data.operationDescription : null],
       rehabilitation: [edit ? data.rehabilitation : null],
-      duration: [edit ? data.duration : this.data.minDuration, Validators.required]
+      duration: [edit ? data.duration : null, Validators.required]
     });
   }
 
