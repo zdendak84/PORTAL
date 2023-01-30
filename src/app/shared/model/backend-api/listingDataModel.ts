@@ -18,6 +18,8 @@ export interface ListingDataModel extends OperationDataModel {
   relevant: boolean;
   firstName: string;
   lastName: string;
+  insuranceNumber: number;
+  insuranceId: number;
   yearOfBirth: number;
   telephone: string;
   previousOrderSlotId?: number;

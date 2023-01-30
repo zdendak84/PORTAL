@@ -227,12 +227,13 @@ export class SlotReservationModalComponent implements OnInit {
           registrationBuildingNumber : null, city : null, zipCode : null, telephone : null,
           email : null, patientId : null, mpiId : null}
 
-        this.updateAddressForm(patient);
-        this.updatePatientForm(patient);
-        this.loading = false;
         if (patient.patientId === null) {
           this.parseInsuranceNumber(insuranceNumber);
+        } else {
+          this.updateAddressForm(patient);
+          this.updatePatientForm(patient);
         }
+        this.loading = false;
       });
     }
   }
@@ -263,8 +264,8 @@ export class SlotReservationModalComponent implements OnInit {
   private createAddressForm(): void {
     this.addressForm = this.fb.group({
       street: [null, Validators.required],
-      buildingNumber: [null, Validators.required],
-      registrationBuildingNumber: [null],
+      buildingNumber: [null],
+      registrationBuildingNumber: [null, Validators.required],
       city: [null, Validators.required],
       zipCode: [null, Validators.required]
     });

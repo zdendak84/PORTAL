@@ -31,6 +31,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { WorkplaceDataModel } from "@shared/model/backend-api/workplaceDataModel";
 import { YesNoModalComponent } from "@shared/components/yes-no-modal/yes-no-modal.component";
 import moment from "moment";
+import { OPERATION_COLUMNS_PDF } from "./operation-column-pdf.constants";
+import { ListingPrintPDF } from "../../components/listing-print-PDF/listing-print-PDF";
 
 @UntilDestroy()
 @Component({
@@ -43,6 +45,7 @@ export class DailyListingComponent implements OnInit {
   readonly fieldRequired = 'Toto pole je povinné';
   readonly bodyParts = BODYPART;
   readonly sides = SIDE;
+  readonly operationColumn = OPERATION_COLUMNS_PDF;
   dataSource: MatTableDataSource<ListingDataModel>;
   examinations: ExaminationDataModel[];
   filter: ListingFilterModel;
@@ -61,6 +64,7 @@ export class DailyListingComponent implements OnInit {
     private excelService: ExcelService,
     private fb: FormBuilder,
     private listingService: ListingService,
+    private listingPrintPDF: ListingPrintPDF,
     private slotService: SlotService,
     private snackbarService: SnackbarService,
     private store: Store) {}
@@ -109,13 +113,14 @@ export class DailyListingComponent implements OnInit {
   }
 
   exportAsExcelFile(): void {
-    let data: { casOd: string, casDo: string, pacient: string, rokNarozeni: number, telefon: string,
-      castTela: string, strana: string, problem: string, problemPopis: string, operace: string,
+    let data: { casOd: string, casDo: string, pacient: string, rokNarozeni: number, telefon: string, cisloPojistence: number,
+      pojistovna: number, castTela: string, strana: string, problem: string, problemPopis: string, operace: string,
       doba: number, operaceDetail: string, operacePoznamka: string, rehabilitace: string, poznamka: string }[] = [];
     this.dataSource.data.filter(f => f.patientId !== null).map(d => {
       data.push({ casOd: d.timeFrom, casDo: d.timeTo, pacient: `${d.lastName ? d.lastName : ''} ${d.firstName ? d.firstName : ''}`,
-        rokNarozeni: d.yearOfBirth, telefon: d.telephone, castTela: d.bodyPartText, strana: d.sideText, problem: d.injury,
-        problemPopis: d.injuryDescription,operace: d.operationWorkplace ? d.operation : this.getExaminationName(d.examinationId),
+        rokNarozeni: d.yearOfBirth, telefon: d.telephone, cisloPojistence: d.insuranceNumber, pojistovna: d.insuranceId,
+        castTela: d.bodyPartText, strana: d.sideText, problem: d.injury, problemPopis: d.injuryDescription,
+        operace: d.operationWorkplace ? d.operation : this.getExaminationName(d.examinationId),
         doba: d.duration, operaceDetail: d.operationDetail, operacePoznamka: d.operationDescription,
         rehabilitace: d.operationWorkplace ? (d.rehabilitation ? 'ano' : 'ne') : '', poznamka: d.description })
     });
@@ -146,6 +151,20 @@ export class DailyListingComponent implements OnInit {
     if (this.filter.locationId && this.filter.workplaceId && this.filter.dateFrom) {
       this.getListing();
     }
+  }
+
+  printPdf(): void {
+    const list = this.operationColumn.slice();
+
+    this.dataSource.filteredData.filter(f => f.type === 2).map(o => {
+      list.push([{ text: `${o.insuranceId}`, fontSize: 9 },
+        { text: `${o.lastName} ${o.firstName} (${o.insuranceNumber})\n tel.: ${o.telephone === null ? '' : o.telephone}\n ${o.description === null ? '' : o.description}`, fontSize: 9 },
+        { text: `${o.bodyPartText}\n${o.sideText}\n${o.duration} min.\n `, fontSize: 9 },
+        { text: `${o.injury}, ${o.injuryDescription === null ? '' : o.injuryDescription}\n${o.operation}, ${o.operationDetail === null ? '' : o.operationDetail}\n${o.operationDescription === null ? '' : o.operationDescription}`, fontSize: 9 },
+        { text: (o.rehabilitation ? '*' : ''), fontSize: 9}]);
+    });
+
+    this.listingPrintPDF.printPDF(list, [ 25, 145, 35, '*', 5 ], '', this.filter.dateFrom.format('DD.MM.YYYY').toString());
   }
 
   slotAction(slot: ListingDataModel, action: SlotActionEnum): void {
