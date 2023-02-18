@@ -17,10 +17,10 @@ export const DESKTOP_COLUMNS: ColumnData[] = [
   { displayed: 'telephoneNumber', name: 'Telefonní číslo' },
   { displayed: 'insurance', name: 'Pojištění' },
   { displayed: 'side', name: 'Část těla' },
-  { displayed: 'injury', name: 'Diagnoźa' },
+  { displayed: 'injury', name: 'Diagnóza' },
   { displayed: 'operation', name: 'Operace' },
-  { displayed: 'duration', name: 'Doba' },
   { displayed: 'operationDescription', name: '' },
+  { displayed: 'duration', name: 'Doba' },
   { displayed: 'rehabilitation', name: 'RHB' },
   { displayed: 'description', name: 'Poznámka' },
   { displayed: 'actions', name: '' }

@@ -69,7 +69,8 @@
       <div *ngIf="row.slotId > 0 && row.type === 2 && !isDesktop">
         <b>{{ row.lastName }} {{ row.firstName }} ({{ row.yearOfBirth }})</b><br>
         {{ row.telephone }}<br>
-        <span *ngIf="row.operationWorkplace" style="font-size: 11px">{{ row.bodyPartText }} {{ row.sideText }} / {{ row.injury }} / {{ row.operation }}<br></span>
+        <span *ngIf="row.operationWorkplace" style="font-size: 11px">{{ row.injury }} {{ row.bodyPartText }} {{ row.sideText }}<br></span>
+        <span *ngIf="row.operationWorkplace" style="font-size: 11px">{{ row.operation }} {{ row.operationDetail }}<br></span>
         <span *ngIf="row.description?.length > 0" style="font-size: 11px; color: red">{{ row.description }}</span>
       </div>
       <div *ngIf="row.slotId > 0 && row.type === 2 && isDesktop">
@@ -117,13 +118,13 @@
   <ng-container *ngIf="isDesktop" [matColumnDef]="columnData[10].displayed">
     <th mat-header-cell *matHeaderCellDef>{{ columnData[10].name }}</th>
     <td mat-cell *matCellDef="let row">
-      <div *ngIf="row.type === 2">{{ row.duration }}</div>
+      <div>{{ row.operationDescription }}</div>
     </td>
   </ng-container>
   <ng-container *ngIf="isDesktop" [matColumnDef]="columnData[11].displayed">
     <th mat-header-cell *matHeaderCellDef>{{ columnData[11].name }}</th>
     <td mat-cell *matCellDef="let row">
-      <div>{{ row.operationDescription }}</div>
+      <div *ngIf="row.type === 2">{{ row.duration }}</div>
     </td>
   </ng-container>
   <ng-container *ngIf="isDesktop" [matColumnDef]="columnData[12].displayed">

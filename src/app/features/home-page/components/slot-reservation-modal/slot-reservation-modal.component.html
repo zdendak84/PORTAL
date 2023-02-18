@@ -106,7 +106,7 @@
           <mat-form-field [style.width.px]=110>
             <mat-label>Část těla</mat-label>
             <mat-select formControlName="bodyPart" (selectionChange)="onChangeBodyPart()">
-              <mat-option *ngFor="let bodyPart of bodyParts" [value]="bodyPart.value">{{bodyPart.name}}</mat-option>
+              <mat-option *ngFor="let bodyPart of bodyParts" [value]="bodyPart.bodyPart">{{bodyPart.bodyPartName}}</mat-option>
             </mat-select>
             <mat-error *ngIf="bodyPart.invalid">{{fieldRequired}}</mat-error>
           </mat-form-field>
@@ -166,7 +166,7 @@
         </div>
         <div mat-dialog-content fxLayout="column">
           <mat-form-field>
-            <input matInput maxlength="255" placeholder="Upřesnění" autocomplete="off" formControlName="operationDescription"/>
+            <input matInput maxlength="255" placeholder="Poznámka/materiál" autocomplete="off" formControlName="operationDescription"/>
           </mat-form-field>
         </div>
         <div mat-dialog-content fxLayout="row">

@@ -1,6 +1,6 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { AppState } from "@store/app.state";
-import { BODYPART, SIDE } from "@shared/constants/dropdown.constants";
+import { SIDE } from "@shared/constants/dropdown.constants";
 import { Component, OnInit } from '@angular/core';
 import { DeviceUtils } from "@shared/utils/device-utils";
 import { ExcelService } from "@services/utility/excel.service";
@@ -27,7 +27,6 @@ import {formatDate} from "@angular/common";
 export class HomePageComponent implements OnInit {
   @Select(AppState.listingFilter) filter$: Observable<ListingFilterModel>;
   readonly fieldRequired = 'Toto pole je povinné';
-  readonly bodyParts = BODYPART;
   readonly sides = SIDE;
   filter: ListingFilterModel;
   loading: boolean;
@@ -91,9 +90,10 @@ export class HomePageComponent implements OnInit {
   }
 
   exportAsExcelFile(): void {
+    const bodyParts = this.store.selectSnapshot(AppState.bodyPart);
     let exportData: { datum: string, casOd: string, casDo: string, pacient: string, rokNarozeni: number, telefon: string,
-      castTela: string, strana: string, problem: string, problemPopis: string, operace: string,
-      doba: number, operaceDetail: string, operacePoznamka: string, rehabilitace: string, poznamka: string }[] = [];
+      castTela: string, strana: string, diagnoza: string, diagnozaPopis: string, operace: string,
+      operaceDetail: string, operacePoznamka: string, doba: number, rehabilitace: string, poznamka: string }[] = [];
 
     const filter = {locationId: this.locationId.value, workplaceId: this.workplaceId.value,
       dateFrom: this.dateFrom.value, dateTo: this.dateTo.value};
@@ -104,9 +104,9 @@ export class HomePageComponent implements OnInit {
         data.filter(f => f.patientId !== null).map(d => {
           exportData.push({ datum: formatDate(d.date, 'dd.MM.yyyy', 'en-US'), casOd: d.timeFrom, casDo: d.timeTo,
             pacient: `${d.lastName ? d.lastName : ''} ${d.firstName ? d.firstName : ''}`, rokNarozeni: d.yearOfBirth, telefon: d.telephone,
-            castTela: d.bodyPart ? this.bodyParts.find(f => f.value === d.bodyPart).name : '',
-            strana: d.side ? this.sides.find(f => f.value === d.side).name : '', problem: d.injury, problemPopis: d.injuryDescription,
-            operace: d.operation, doba: d.duration, operaceDetail: d.operationDetail, operacePoznamka: d.operationDescription,
+            castTela: d.bodyPart ? bodyParts.find(f => f.bodyPart === d.bodyPart).bodyPartName : '',
+            strana: d.side ? this.sides.find(f => f.value === d.side).name : '', diagnoza: d.injury, diagnozaPopis: d.injuryDescription,
+            operace: d.operation, operaceDetail: d.operationDetail, operacePoznamka: d.operationDescription, doba: d.duration,
             rehabilitace: d.operationWorkplace ? (d.rehabilitation ? 'ano' : 'ne') : '', poznamka: d.description })
         });
         this.excelService.exportAsExcelFile(exportData, `${filter.dateFrom.format('YYYYMMDD').toString()}_${filter.dateTo.format('YYYYMMDD').toString()}`);

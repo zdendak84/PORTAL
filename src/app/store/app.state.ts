@@ -9,6 +9,7 @@ import { ListingFilterModel } from "@shared/model/filters/listingFilterModel";
 import { WorkplaceDataModel } from "@shared/model/backend-api/workplaceDataModel";
 import { LocationDataModel } from "@shared/model/backend-api/locationDataModel";
 import { ExaminationDataModel } from "@shared/model/backend-api/examinationDataModel";
+import { BodyPartCodebook } from "@shared/model/backend-api/codebooks/bodyPartCodebook";
 import { InsuranceCodebook } from "@shared/model/backend-api/codebooks/insuranceCodebook";
 import { InjuryCodebook } from "@shared/model/backend-api/codebooks/injuryCodebook";
 import { OperationCodebook } from "@shared/model/backend-api/codebooks/operationCodebook";
@@ -33,6 +34,11 @@ export class AppState {
   @Selector()
   static examinations(state: AppStateModel): ExaminationDataModel[] {
     return state.examinations;
+  }
+
+  @Selector()
+  static bodyPart(state: AppStateModel): BodyPartCodebook[] {
+    return state.codeBooks.bodyParts;
   }
 
   @Selector()
