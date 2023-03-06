@@ -111,8 +111,10 @@ export class SchedulePageComponent implements OnInit {
   }
 
   onChange(): void {
-    this.store.dispatch(new SetSchedulePeriod(this.period.value));
-    this.getSchedule();
+    if (this.period.value) {
+      this.store.dispatch(new SetSchedulePeriod(this.period.value));
+      this.getSchedule();
+    }
   }
 
   onShiftClick(date: string, shiftNumber: number, rowNumber: number): void {
