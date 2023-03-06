@@ -25,6 +25,7 @@
     <button mat-menu-item (click)="slotAction(row, action.description)"><mat-icon>create</mat-icon>Upravit poznámku</button>
     <button mat-menu-item (click)="slotAction(row, action.cancel)"><mat-icon>cancel</mat-icon>Zrušit termín</button>
     <button *ngIf="row.operationWorkplace" mat-menu-item (click)="slotAction(row, action.edit)"><mat-icon>build</mat-icon>Upravit operaci</button>
+    <button *ngIf="row.operationWorkplace" mat-menu-item (click)="slotAction(row, action.reorder)"><mat-icon>arrow_forward</mat-icon>Přeobjednat operaci</button>
     <button *ngIf="row.previousOrderSlotId && row.operationWorkplace && !isDesktop" mat-menu-item (click)="slotAction(row, action.shiftUp)"><mat-icon>arrow_upward</mat-icon>Posunout nahoru</button>
     <button *ngIf="row.nextOrderSlotId && row.operationWorkplace && !isDesktop" mat-menu-item (click)="slotAction(row, action.shiftDown)"><mat-icon>arrow_downward</mat-icon>Posunout dolu</button>
     <button mat-menu-item (click)="slotAction(row, action.history)"><mat-icon>help_outline</mat-icon>Historie slotu</button>

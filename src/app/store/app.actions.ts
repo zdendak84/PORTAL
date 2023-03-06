@@ -35,6 +35,11 @@ export class SetListingFilter {
   constructor(public listingFilter: ListingFilterModel) {}
 }
 
+export class SetSchedulePeriod {
+  static readonly type = '[App] Set schedule period filter';
+  constructor(public schedulePeriod: string) {}
+}
+
 export class SetUserBasicData {
   static readonly type = '[App] Set user data';
   constructor(public userBasicData: UserStateDataModel) {}

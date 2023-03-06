@@ -1,0 +1,20 @@
+<div *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<h1 mat-dialog-title>Chcete přeobjednat termín?</h1>
+<form *ngIf="!loading" [formGroup]="reorderForm">
+  <div class="wrapper">
+    <div mat-dialog-content fxLayout="column">
+      <mat-form-field>
+        <mat-label>Vyberte alternativu</mat-label>
+        <mat-select formControlName="slotId">
+          <mat-option *ngFor="let alternative of reorderAlternatives" [value]="alternative.slotId">{{ alternative.date | date: 'dd.MM.' }} operací: {{alternative.sumOfPatients}}, alok: {{alternative.sumOfMinutes}} min </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" color="primary" [disabled]="reorderForm.invalid" (click)="onSubmit()">Uložit</button>
+    <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Zrušit</button>
+  </div>
+</form>

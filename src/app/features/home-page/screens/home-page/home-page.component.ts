@@ -151,6 +151,10 @@ export class HomePageComponent implements OnInit {
     this.store.dispatch(new Navigate(['/listing']));
   }
 
+  toSchedule(): void {
+    this.store.dispatch(new Navigate(['/schedule']));
+  }
+
   private createSearchForm(): void {
     this.searchForm = this.fb.group({
       locationId: [this.filter?.locationId ? this.filter.locationId : null, Validators.required],

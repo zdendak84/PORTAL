@@ -1,0 +1,28 @@
+<div *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<h1 mat-dialog-title>Chcete obsadit termín?</h1>
+<form *ngIf="!loading" [formGroup]="shiftForm">
+  <div class="wrapper">
+    <div mat-dialog-content fxLayout="column">
+      <mat-form-field>
+        <mat-label>Vyberte směnu</mat-label>
+        <mat-select formControlName="shiftId">
+          <mat-option *ngFor="let shift of shifts" [value]="shift.shiftId">{{shift.description}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngIf="data.admin" mat-dialog-content fxLayout="column">
+      <mat-form-field>
+        <mat-label>Vyberte lékaře</mat-label>
+        <mat-select formControlName="doctorId">
+          <mat-option *ngFor="let doctor of data.doctors" [value]="doctor.doctorId">{{doctor.titleBefore}} {{doctor.firstName}} {{doctor.lastName}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" color="primary" [disabled]="shiftForm.invalid" (click)="onSubmit()">Uložit</button>
+    <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Zrušit</button>
+  </div>
+</form>

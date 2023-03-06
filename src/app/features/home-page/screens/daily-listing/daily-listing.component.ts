@@ -23,6 +23,7 @@ import { SetListingFilter } from '@store/app.actions';
 import { SlotActionEnum } from '@shared/model/enums/slotActionEnum';
 import { SlotHistoryModalComponent } from "../../components/slot-history-modal/slot-history-modal.component";
 import { SlotPreviewModalComponent } from "../../components/slot-preview-modal/slot-preview-modal.component";
+import { SlotReorderModalComponent } from "../../components/slot-reorder-modal/slot-reorder-modal.component";
 import { SlotReservationModalComponent } from "../../components/slot-reservation-modal/slot-reservation-modal.component";
 import { SlotService } from "@services/backend-api/slot/slot.service";
 import { SnackbarService } from '@services/utility/snackbar.service';
@@ -185,6 +186,9 @@ export class DailyListingComponent implements OnInit {
       case SlotActionEnum.preview:
         this.slotPreview(slot);
         return;
+      case SlotActionEnum.reorder:
+        this.slotReorder(slot.slotId);
+        return;
       case SlotActionEnum.reservation:
         this.slotReservation(slot);
         return;
@@ -268,6 +272,26 @@ export class DailyListingComponent implements OnInit {
       width: this.dialogWidth, data: { slot: slot }
     });
     dialog.afterClosed().pipe(untilDestroyed(this)).subscribe();
+  }
+
+  /* preobjednani terminu*/
+  private slotReorder(slotId: number): void {
+    let dialog;
+    dialog = this.dialog.open(SlotReorderModalComponent, {
+      disableClose: true,
+      width: this.dialogWidth, data: { slotId: slotId }
+    });
+    dialog.afterClosed().pipe(untilDestroyed(this)).subscribe(result => {
+      if (result.event === ModalEventEnum.Create) {
+        this.slotService.slotReOrder(slotId, result.data.slotId).subscribe(data => {
+          if (data) {
+            this.getListing();
+          } else {
+            this.snackbarService.openErrorSnackBar('Objednávku se nepodařilo přeobjednat');
+          }
+        });
+      }
+    });
   }
 
   /* rezervace terminu */

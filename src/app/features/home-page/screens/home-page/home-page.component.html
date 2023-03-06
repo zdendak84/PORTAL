@@ -24,7 +24,10 @@
         <div *ngIf="(!(locations?.length > 0))" fxLayout="row" fxLayoutAlign="left center">
             <span style="color: red;" fxLayoutAlign="space-around center"><mat-icon>warning</mat-icon> Nejsou k dispozici lokality pro objednávání <mat-icon>warning</mat-icon></span>
         </div>
-        <button *ngIf="isValid" mat-raised-button type="button" color="primary" (click)="toListing()">Přejít do kalendáře</button>
+        <div *ngIf="isValid" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="left center">
+            <button fxFlex="0 0 45%" mat-raised-button type="button" color="primary" (click)="toListing()">Moje kalendáře</button>
+            <button fxFlex="0 0 45%" mat-raised-button type="button" color="primary" (click)="toSchedule()">Rozvrh pracoviště</button>
+        </div>
         <div *ngIf="isValid" fxLayout="column" fxLayoutGap="10px">&nbsp;<br><mat-divider></mat-divider></div>
         <div *ngIf="isValid" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="left">
             <mat-form-field [style.width.px]=160>
@@ -54,6 +57,6 @@
 </form>
 <footer>
   <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
-    <b>AMOS MOBILE (v230218)</b>
+    <b>AMOS MOBILE (v230301)</b>
   </div>
 </footer>

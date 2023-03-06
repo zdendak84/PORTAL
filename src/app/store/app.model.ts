@@ -12,4 +12,5 @@ export interface AppStateModel {
   workplaces: WorkplaceDataModel[];
   userBasicData: UserStateDataModel;
   listingFilter: ListingFilterModel;
+  schedulePeriod: string;
 }

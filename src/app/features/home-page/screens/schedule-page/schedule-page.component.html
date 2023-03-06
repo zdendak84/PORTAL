@@ -1,0 +1,41 @@
+<div *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<form *ngIf="!loading" [formGroup]="searchForm">
+  <div class="wrapper">
+    <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+      <mat-form-field [style.width.px]=160>
+        <mat-select formControlName="period" placeholder="Období" (selectionChange)="onChange();">
+          <mat-option *ngFor="let period of periods" [value]="period.period">{{period.period}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="period.hasError('required')">{{fieldRequired}}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</form>
+<table *ngIf="this.dataSource.data?.length > 0" [dataSource]="dataSource" mat-table class="full-width-table" matSort aria-label="Elements">
+  <ng-container [matColumnDef]="columnData[0].displayed">
+    <th mat-header-cell *matHeaderCellDef>{{ columnData[0].name }}</th>
+    <td mat-cell *matCellDef="let row">
+      <span *ngIf="device.isDesktop">{{ row.date | date: 'dd.MM.yyyy' }}<br>{{ getDayName(row.dayOfWeek) }}</span>
+      <span *ngIf="!device.isDesktop">{{ row.date | date: 'dd.' }}<br>{{ getDayName(row.dayOfWeek).substring(0,2) }}</span>
+    </td>
+  </ng-container>
+  <ng-container *ngFor="let col of columnData.slice(1); let i = index" [matColumnDef]="col.displayed">
+    <th mat-header-cell *matHeaderCellDef>{{ col.name }}</th>
+    <td mat-cell *matCellDef="let row">
+      <span *ngIf="getShiftButton(row.date, 1, i); else firstShiftText"><button mat-button [style.background-color]="getButtonColor()" style="text-align:left; padding-left: 0;" (click)="onShiftClick(row.date, 1, i)">{{ getDoctorName(row.date, 1, i) }}</button><br></span>
+      <ng-template #firstShiftText>
+        <span>{{ getDoctorName(row.date, 1, i) }}<br></span>
+      </ng-template>
+      <span *ngIf="getShiftAvailability(row.date, i)"><button mat-button style="background-color: limegreen; text-align:left; padding-left: 0;" (click)="onAvailableShiftClick(row.date, i)">VOLNO</button><br></span>
+      <span *ngIf="getShiftButton(row.date, 2, i); else secondShiftText"><button mat-button [style.background-color]="getButtonColor()" style="text-align:left; padding-left: 0;" (click)="onShiftClick(row.date, 2, i)">{{ getDoctorName(row.date, 2, i) }}</button></span>
+      <ng-template #secondShiftText>
+        <span>{{ getDoctorName(row.date, 2, i) }}<br></span>
+      </ng-template>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+</table>

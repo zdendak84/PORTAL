@@ -4,6 +4,7 @@ export enum SlotActionEnum {
   edit = 'edit',
   history = 'history',
   preview = 'preview',
+  reorder = 'reorder',
   reservation = 'reservation',
   shiftUp = 'shiftUp',
   shiftDown = 'shiftDown'

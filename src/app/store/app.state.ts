@@ -2,7 +2,16 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { patch } from '@ngxs/store/operators';
 
 import { AppStateModel } from './app.model';
-import { CleanStore, SetCodeBooks, SetExaminations, SetLocations, SetWorkplaces, SetListingFilter, SetUserBasicData } from './app.actions';
+import {
+  CleanStore,
+  SetCodeBooks,
+  SetExaminations,
+  SetLocations,
+  SetWorkplaces,
+  SetListingFilter,
+  SetUserBasicData,
+  SetSchedulePeriod
+} from './app.actions';
 import { UserStateDataModel } from "@shared/model/state/user-state-data.model";
 import { Injectable } from '@angular/core';
 import { ListingFilterModel } from "@shared/model/filters/listingFilterModel";
@@ -13,6 +22,7 @@ import { BodyPartCodebook } from "@shared/model/backend-api/codebooks/bodyPartCo
 import { InsuranceCodebook } from "@shared/model/backend-api/codebooks/insuranceCodebook";
 import { InjuryCodebook } from "@shared/model/backend-api/codebooks/injuryCodebook";
 import { OperationCodebook } from "@shared/model/backend-api/codebooks/operationCodebook";
+import { UserDataModel } from "@shared/model/backend-api/userDataModel";
 
 @State<AppStateModel>({
   name: 'portal',
@@ -23,6 +33,7 @@ import { OperationCodebook } from "@shared/model/backend-api/codebooks/operation
     workplaces: null,
     userBasicData: (sessionStorage.getItem('user')) ? JSON.parse(sessionStorage.getItem('user')) : null,
     listingFilter: null,
+    schedulePeriod: null
   }
 })
 @Injectable({
@@ -72,8 +83,18 @@ export class AppState {
   }
 
   @Selector()
+  static schedulePeriod(state: AppStateModel): string {
+    return state.schedulePeriod;
+  }
+
+  @Selector()
   static userBasicData(state: AppStateModel): UserStateDataModel {
     return state.userBasicData;
+  }
+
+  @Selector()
+  static userData(state: AppStateModel): UserDataModel {
+    return state.userBasicData.user;
   }
 
   @Action(SetCodeBooks)
@@ -108,14 +129,21 @@ export class AppState {
   cleanStore(ctx: StateContext<AppStateModel>): void {
     ctx.setState(
       patch({codeBooks: null, examinations: null, locations: null, workplaces: null, listingFilter: null,
-        userBasicData: null, firstDate: null})
+        userBasicData: null, schedulePeriod: null})
     );
   }
 
   @Action(SetListingFilter)
-  setSurgeryListingFilter(ctx: StateContext<AppStateModel>, action: SetListingFilter): void {
+  setListingFilter(ctx: StateContext<AppStateModel>, action: SetListingFilter): void {
     ctx.setState(
         patch({listingFilter: action.listingFilter})
+    );
+  }
+
+  @Action(SetSchedulePeriod)
+  setSchedulePeriod(ctx: StateContext<AppStateModel>, action: SetSchedulePeriod): void {
+    ctx.setState(
+        patch({schedulePeriod: action.schedulePeriod})
     );
   }
 

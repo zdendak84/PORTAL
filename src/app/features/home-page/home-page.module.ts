@@ -8,17 +8,23 @@ import { NgModule } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
 import { SlotHistoryModalComponent } from "./components/slot-history-modal/slot-history-modal.component";
 import { SlotPreviewModalComponent } from "./components/slot-preview-modal/slot-preview-modal.component";
-import { SlotReservationModalComponent } from "./components/slot-reservation-modal/slot-reservation-modal.component";
 
 import { SharedModule } from '@shared/shared.module';
+import { SchedulePageComponent } from "./screens/schedule-page/schedule-page.component";
+import { SlotReservationModalComponent } from "./components/slot-reservation-modal/slot-reservation-modal.component";
+import { SlotReorderModalComponent } from "./components/slot-reorder-modal/slot-reorder-modal.component";
+import { ScheduleReservationModalComponent } from "./components/schedule-reservation-modal/schedule-reservation-modal.component";
 
 @NgModule({
     declarations: [
         DailyListingComponent,
         HomePageComponent,
+        SchedulePageComponent,
         SlotHistoryModalComponent,
         SlotPreviewModalComponent,
-        SlotReservationModalComponent
+        SlotReservationModalComponent,
+        SlotReorderModalComponent,
+        ScheduleReservationModalComponent
     ],
     imports: [
         CommonModule,

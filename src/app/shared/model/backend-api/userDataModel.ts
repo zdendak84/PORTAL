@@ -8,4 +8,6 @@ export interface UserDataModel {
   password: string;
   active: boolean;
   description: string;
+  doctorId: number;
+  admin: boolean;
 }
