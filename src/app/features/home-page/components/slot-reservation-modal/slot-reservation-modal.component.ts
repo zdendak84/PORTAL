@@ -248,6 +248,10 @@ export class SlotReservationModalComponent implements OnInit {
     if (this.patientForm.invalid || this.injuryForm.invalid) {
       return;
     }
+    if (this.gender.value === null) {
+      const lastLetter = this.lastName.value.slice(-1).toLowerCase();
+      this.gender.setValue(((lastLetter === 'a' || lastLetter === 'á') ? 2 : 1));
+    }
     const operation = {...this.injuryForm.value, ...this.operationForm.value,
       rehabilitation: this.rehabilitation.value ? (this.rehabilitation.value ? 1 : 0) : 0};
     const patient = {...this.addressForm.value, ...this.patientForm.value}
@@ -316,11 +320,11 @@ export class SlotReservationModalComponent implements OnInit {
     return (value === value.toUpperCase()) ? value.toLowerCase() : value;
   }
 
-  filterInjuries(bodyPart: number): void {
+  private filterInjuries(bodyPart: number): void {
     this.filteredInjuries = this.injuries.filter(f => f.bodyPart === bodyPart);
   }
 
-  filterOperations(bodyPart: number): void {
+  private filterOperations(bodyPart: number): void {
     this.filteredOperations = [];
     this.operations.filter(f => f.bodyPart === bodyPart).map(o => {
       if (this.filteredOperations.filter(f => f.operation === o.operation).length === 0) {
@@ -329,7 +333,7 @@ export class SlotReservationModalComponent implements OnInit {
     });
   }
 
-  filterOperationDetails(): void {
+  private filterOperationDetails(): void {
     this.operationDetails = this.operations.filter(f => f.operation === this.operation.value && f.operationDetail !== null);
   }
 

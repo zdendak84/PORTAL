@@ -180,6 +180,10 @@
           <button type="button" class="button" mat-raised-button matStepperNext [color]="getColor(40)" (click)="setDuration(40)" >40 MIN</button>
           <button *ngIf="data.maxDuration >= 60" type="button" class="button" mat-raised-button matStepperNext [color]="getColor(60)" (click)="setDuration(60)" >60 MIN</button>
         </div>
+        <div *ngIf="data.maxDuration >= 90" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <button type="button" class="button" mat-raised-button matStepperNext [color]="getColor(90)" (click)="setDuration(90)" >90 MIN</button>
+          <button *ngIf="data.maxDuration >= 120" type="button" class="button" mat-raised-button matStepperNext [color]="getColor(120)" (click)="setDuration(120)" >120 MIN</button>
+        </div>
       </div>
       <div mat-dialog-actions>
         <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Zrušit</button>
