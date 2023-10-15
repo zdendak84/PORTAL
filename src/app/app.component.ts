@@ -57,7 +57,9 @@ export class AppComponent implements OnInit {
     this.idle.setTimeout(false);
     this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     this.idle.onIdleStart.subscribe(() => {
-      this.authenticationService.logout();
+      if (this.userData) {
+        this.authenticationService.logout();
+      }
     });
     this.idle.watch();
   }

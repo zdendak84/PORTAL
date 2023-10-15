@@ -1,0 +1,31 @@
+.wrapper {
+  margin-right: auto;
+  margin-left:  auto;
+  max-width: 95%;
+  padding: 20px 10px 15px 10px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-row:nth-child(odd) {
+  background-color:#f2f2f2;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+}
+
+.mat-column-time {
+  min-width: 50px;
+  max-width: 50px;
+}
+
+.mat-column-timeFrom {
+  width: 80px !important;
+}
+
+.mat-column-timeTo {
+  width: 80px !important;
+}

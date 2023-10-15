@@ -6,4 +6,5 @@ export interface ListingFilterModel {
   dateFrom?: Moment;
   dateTo?: Moment;
   shift?: number;
+  code?: string;
 }
