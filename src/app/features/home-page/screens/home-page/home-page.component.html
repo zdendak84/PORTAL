@@ -6,15 +6,15 @@
     <div fxLayout="column" fxLayoutGap="10px"  [style.max-width.%]="device.isDesktop ? 30 : 100">
         <div *ngIf="locations?.length > 0" fxLayout="row" fxLayoutAlign="left center">
           <mat-form-field fxFlex="0 0 100%">
-            <mat-select formControlName="locationId" placeholder="Vyberte zařízení" (selectionChange)="onChanges();">
+            <mat-select formControlName="locationId" placeholder="Vyberte zařízení" (selectionChange)="onLocationChange();">
               <mat-option *ngFor="let location of locations" [value]="location.locationId">{{location.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div *ngIf="locationId.value" fxLayout="row" fxLayoutAlign="left center">
           <mat-form-field fxFlex="0 0 100%">
-            <mat-select formControlName="workplaceId" placeholder="Vyberte pracoviště" (selectionChange)="onChanges();">
-              <mat-option *ngFor="let workplace of workplaces" [value]="workplace.workplaceId">{{workplace.name}}</mat-option>
+            <mat-select formControlName="workplaceId" placeholder="Vyberte pracoviště" (selectionChange)="onWorkplaceChange();">
+              <mat-option *ngFor="let workplace of filteredWorkplaces" [value]="workplace.workplaceId">{{workplace.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -57,6 +57,6 @@
 </form>
 <footer>
   <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
-    <b>AMOS MOBILE (v230402)</b>
+    <b>AMOS MOBILE (v231227)</b>
   </div>
 </footer>

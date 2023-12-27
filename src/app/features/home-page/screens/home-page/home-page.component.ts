@@ -32,7 +32,6 @@ export class HomePageComponent implements OnInit {
   loading: boolean;
   locations: LocationDataModel[];
   workplaces: WorkplaceDataModel[];
-  filteredWorkplaces: WorkplaceDataModel[];
   searchForm: FormGroup;
 
   constructor(
@@ -42,6 +41,10 @@ export class HomePageComponent implements OnInit {
     private listingService: ListingService,
     private snackbarService: SnackbarService,
     private store: Store) {}
+
+  get filteredWorkplaces(): WorkplaceDataModel[] {
+    return this.locationId.value ? this.workplaces.filter(f => f.locationId === this.locationId.value) : null;
+  }
 
   get dateFrom(): AbstractControl {
     return this.searchForm.get('dateFrom');
@@ -77,9 +80,6 @@ export class HomePageComponent implements OnInit {
         this.locations = this.store.selectSnapshot(AppState.locations);
         this.workplaces = this.store.selectSnapshot(AppState.workplaces);
         this.filter = filter;
-        if (filter.locationId) {
-          this.filteredWorkplaces = this.workplaces.filter(f => f.locationId === filter.locationId);
-        }
         this.createSearchForm();
         if (filter.dateFrom === null) {
           this.getNextPlanDate();
@@ -122,22 +122,21 @@ export class HomePageComponent implements OnInit {
       this.loading = true;
       const filter = {dateFrom: moment(), workplaceId: this.workplaceId.value, shift: 0}
       this.listingService.getPlanDate(filter).subscribe( data => {
-        if (data) {
-          this.filter = {dateFrom: moment(data.date), locationId: this.locationId.value, workplaceId: this.workplaceId.value}
-          this.store.dispatch(new SetListingFilter(this.filter));
-        }
+        this.filter = {dateFrom: (data ? moment(data.date) : moment()), locationId: this.locationId.value, workplaceId: this.workplaceId.value}
+        this.store.dispatch(new SetListingFilter(this.filter));
         this.loading = false;
       });
     }
   }
 
-  onChanges(): void {
-    if (this.locationId.value) {
-      this.filteredWorkplaces = this.workplaces.filter(f => f.locationId === this.locationId.value);
-      if (this.filteredWorkplaces.length === 1) {
-        this.workplaceId.setValue(this.filteredWorkplaces[0].workplaceId);
-      }
+  onLocationChange(): void {
+    if (this.filteredWorkplaces.length === 1) {
+      this.workplaceId.setValue(this.filteredWorkplaces[0].workplaceId);
     }
+    this.getNextPlanDate();
+  }
+
+  onWorkplaceChange(): void {
     this.getNextPlanDate();
   }
 

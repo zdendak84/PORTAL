@@ -213,7 +213,7 @@ export class SchedulePageComponent implements OnInit {
         this.schedule = result[3];
 
         this.columnData=[{ displayed: 'date', name: 'Den' }];
-        this.rooms.map(m => {
+        this.rooms?.map(m => {
           this.columnData.push({ displayed: m.number, name: m.description });
         });
       } else {

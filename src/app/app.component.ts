@@ -4,12 +4,14 @@ import { AppState } from '@store/app.state';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import {SetExaminations, SetLocations, SetWorkplaces, SetListingFilter, SetCodeBooks} from '@store/app.actions';
+import { SetExaminations, SetLocations, SetWorkplaces, SetListingFilter, SetCodeBooks } from '@store/app.actions';
 import { environment } from '../environments/environment';
 import { AuthenticationService } from '@services/backend-api/users/authentication.service';
 import { UserDataModel } from "@shared/model/backend-api/userDataModel";
 import { CodebookService } from "@services/backend-api/codebook/codebook.service";
 import { forkJoin } from "rxjs";
+import { Navigate } from "@ngxs/router-plugin";
+import { AppRoutes } from "./app.routes";
 
 @UntilDestroy()
 @Component({
@@ -19,6 +21,7 @@ import { forkJoin } from "rxjs";
 })
 export class AppComponent implements OnInit {
   userData: UserDataModel;
+  loading = true;
   constructor(
     private authenticationService: AuthenticationService,
     private codeBookService: CodebookService,
@@ -46,10 +49,13 @@ export class AppComponent implements OnInit {
               workplaceId: result[2]?.length === 1 ? result[2][0].workplaceId : null,
               dateFrom: null
             };
+            this.loading = false;
             this.store.dispatch(new SetListingFilter(filter));
+            this.store.dispatch(new Navigate([AppRoutes.HOME]));
           }
         });
       } else {
+        this.loading = false;
         this.userData = null;
       }
     });

@@ -1,5 +1,8 @@
 <div *ngIf="userData">
   <app-nav-bar [loggedUser]="userData"></app-nav-bar>
 </div>
-<router-outlet></router-outlet>
+<div *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<router-outlet *ngIf="!loading"></router-outlet>
 
