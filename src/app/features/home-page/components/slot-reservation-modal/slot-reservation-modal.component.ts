@@ -11,7 +11,6 @@ import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
 import { OperationCodebook } from "@shared/model/backend-api/codebooks/operationCodebook";
 import { PatientDataModel } from "@shared/model/backend-api/patientDataModel";
 import { PatientService } from "@services/backend-api/patient/patient.service";
-import { SlotService } from '@services/backend-api/slot/slot.service';
 import { Store } from "@ngxs/store";
 import { ThemePalette } from "@angular/material/core";
 
@@ -25,7 +24,7 @@ export class SlotReservationModalComponent implements OnInit {
   readonly wrongFormat = 'Chybný formát';
   readonly EMAIL_REGEX = /^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/;
   readonly IDS_REGEX = /^[0-9]{9,10}$/;
-  readonly sides = SIDE;
+  sides = SIDE;
   edit = false;
   bodyParts: BodyPartCodebook[];
   injuries: InjuryCodebook[];
@@ -42,7 +41,6 @@ export class SlotReservationModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: Store,
-    private slotService: SlotService,
     private patientService: PatientService,
     public dialogRef: MatDialogRef<SlotReservationModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {slot: ListingDataModel; minDuration: number; maxDuration: number}
@@ -141,7 +139,11 @@ export class SlotReservationModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bodyParts = this.store.selectSnapshot(AppState.bodyPart);
+    const workplaceId = this.data.slot?.workplaceId;
+    if (workplaceId == 133) {
+      this.sides = this.sides.filter(f => (f.value === 1 || f.value ===2));
+    }
+    this.bodyParts = this.store.selectSnapshot(AppState.bodyPart).filter(f => f.workplaceId === workplaceId);
     this.injuries = this.store.selectSnapshot(AppState.injury);
     this.insurances = this.store.selectSnapshot(AppState.insurance);
     this.operations = this.store.selectSnapshot(AppState.operation);
