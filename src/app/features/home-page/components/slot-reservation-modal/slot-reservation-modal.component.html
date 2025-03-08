@@ -113,7 +113,7 @@
           <mat-form-field [style.width.px]=80>
             <mat-label>Strana</mat-label>
             <mat-select formControlName="side">
-              <mat-option *ngFor="let side of sides" [value]="side.value">{{side.name}}</mat-option>
+              <mat-option *ngFor="let side of bodySides" [value]="side.bodySide">{{side.bodySideName}}</mat-option>
             </mat-select>
             <mat-error *ngIf="side.invalid">{{fieldRequired}}</mat-error>
           </mat-form-field>

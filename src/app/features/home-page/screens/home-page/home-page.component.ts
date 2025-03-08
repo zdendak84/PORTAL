@@ -1,6 +1,5 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { AppState } from "@store/app.state";
-import { SIDE } from "@shared/constants/dropdown.constants";
 import { Component, OnInit } from '@angular/core';
 import { DeviceUtils } from "@shared/utils/device-utils";
 import { ExcelService } from "@services/utility/excel.service";
@@ -27,7 +26,6 @@ import {formatDate} from "@angular/common";
 export class HomePageComponent implements OnInit {
   @Select(AppState.listingFilter) filter$: Observable<ListingFilterModel>;
   readonly fieldRequired = 'Toto pole je povinné';
-  readonly sides = SIDE;
   filter: ListingFilterModel;
   loading: boolean;
   locations: LocationDataModel[];
@@ -91,6 +89,7 @@ export class HomePageComponent implements OnInit {
 
   exportAsExcelFile(): void {
     const bodyParts = this.store.selectSnapshot(AppState.bodyPart);
+    const bodySides = this.store.selectSnapshot(AppState.bodySide);
     let exportData: { datum: string, casOd: string, casDo: string, pacient: string, rokNarozeni: number, telefon: string,
       castTela: string, strana: string, diagnoza: string, diagnozaPopis: string, operace: string,
       operaceDetail: string, operacePoznamka: string, doba: number, rehabilitace: string, poznamka: string }[] = [];
@@ -105,7 +104,7 @@ export class HomePageComponent implements OnInit {
           exportData.push({ datum: formatDate(d.date, 'dd.MM.yyyy', 'en-US'), casOd: d.timeFrom, casDo: d.timeTo,
             pacient: `${d.lastName ? d.lastName : ''} ${d.firstName ? d.firstName : ''}`, rokNarozeni: d.yearOfBirth, telefon: d.telephone,
             castTela: d.bodyPart ? bodyParts.find(f => f.bodyPart === d.bodyPart).bodyPartName : '',
-            strana: d.side ? this.sides.find(f => f.value === d.side).name : '', diagnoza: d.injury, diagnozaPopis: d.injuryDescription,
+            strana: d.side ? bodySides.find(f => f.bodySide === d.side).bodySideName : '', diagnoza: d.injury, diagnozaPopis: d.injuryDescription,
             operace: d.operation, operaceDetail: d.operationDetail, operacePoznamka: d.operationDescription, doba: d.duration,
             rehabilitace: d.operationWorkplace ? (d.rehabilitation ? 'ano' : 'ne') : '', poznamka: d.description })
         });

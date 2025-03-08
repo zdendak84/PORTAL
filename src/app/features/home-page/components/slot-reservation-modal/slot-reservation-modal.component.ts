@@ -1,7 +1,7 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { AppState } from "@store/app.state";
 import { BodyPartCodebook } from "@shared/model/backend-api/codebooks/bodyPartCodebook";
-import { SIDE} from "@shared/constants/dropdown.constants";
+import { BodySideCodebook } from "@shared/model/backend-api/codebooks/bodySideCodebook";
 import { Component, Inject, OnInit } from '@angular/core';
 import { InjuryCodebook } from "@shared/model/backend-api/codebooks/injuryCodebook";
 import { InsuranceCodebook } from "@shared/model/backend-api/codebooks/insuranceCodebook";
@@ -24,9 +24,9 @@ export class SlotReservationModalComponent implements OnInit {
   readonly wrongFormat = 'Chybný formát';
   readonly EMAIL_REGEX = /^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/;
   readonly IDS_REGEX = /^[0-9]{9,10}$/;
-  sides = SIDE;
   edit = false;
   bodyParts: BodyPartCodebook[];
+  bodySides: BodySideCodebook[];
   injuries: InjuryCodebook[];
   filteredInjuries: InjuryCodebook[];
   insurances: InsuranceCodebook[];
@@ -140,10 +140,8 @@ export class SlotReservationModalComponent implements OnInit {
 
   ngOnInit(): void {
     const workplaceId = this.data.slot?.workplaceId;
-    if (workplaceId == 133) {
-      this.sides = this.sides.filter(f => (f.value === 1 || f.value ===2));
-    }
     this.bodyParts = this.store.selectSnapshot(AppState.bodyPart).filter(f => f.workplaceId === workplaceId);
+    this.bodySides = this.store.selectSnapshot(AppState.bodySide);
     this.injuries = this.store.selectSnapshot(AppState.injury);
     this.insurances = this.store.selectSnapshot(AppState.insurance);
     this.operations = this.store.selectSnapshot(AppState.operation);

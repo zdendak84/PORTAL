@@ -23,6 +23,7 @@ import { InsuranceCodebook } from "@shared/model/backend-api/codebooks/insurance
 import { InjuryCodebook } from "@shared/model/backend-api/codebooks/injuryCodebook";
 import { OperationCodebook } from "@shared/model/backend-api/codebooks/operationCodebook";
 import { UserDataModel } from "@shared/model/backend-api/userDataModel";
+import { BodySideCodebook } from "@shared/model/backend-api/codebooks/bodySideCodebook";
 
 @State<AppStateModel>({
   name: 'portal',
@@ -50,6 +51,11 @@ export class AppState {
   @Selector()
   static bodyPart(state: AppStateModel): BodyPartCodebook[] {
     return state.codeBooks.bodyParts;
+  }
+
+  @Selector()
+  static bodySide(state: AppStateModel): BodySideCodebook[] {
+    return state.codeBooks.bodySides;
   }
 
   @Selector()

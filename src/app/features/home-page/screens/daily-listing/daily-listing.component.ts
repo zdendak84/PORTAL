@@ -1,6 +1,5 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState } from "@store/app.state";
-import { SIDE } from "@shared/constants/dropdown.constants";
 import { ColumnData } from "@shared/model/column-data-model";
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DescriptionModalComponent } from "@shared/components/description-modal/description-modal.component";
@@ -35,6 +34,7 @@ import moment from "moment";
 import { OPERATION_COLUMNS_PDF } from "./operation-column-pdf.constants";
 import { ListingPrintPDF } from "../../components/listing-print-PDF/listing-print-PDF";
 import { BodyPartCodebook } from "@shared/model/backend-api/codebooks/bodyPartCodebook";
+import { BodySideCodebook } from "@shared/model/backend-api/codebooks/bodySideCodebook";
 
 @UntilDestroy()
 @Component({
@@ -45,9 +45,9 @@ import { BodyPartCodebook } from "@shared/model/backend-api/codebooks/bodyPartCo
 export class DailyListingComponent implements OnInit {
   readonly action = SlotActionEnum;
   readonly fieldRequired = 'Toto pole je povinné';
-  readonly sides = SIDE;
   readonly operationColumn = OPERATION_COLUMNS_PDF;
   bodyParts: BodyPartCodebook[];
+  bodySides: BodySideCodebook[];
   dataSource: MatTableDataSource<ListingDataModel>;
   examinations: ExaminationDataModel[];
   filter: ListingFilterModel;
@@ -103,6 +103,7 @@ export class DailyListingComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<ListingDataModel>([]);
     this.bodyParts = this.store.selectSnapshot(AppState.bodyPart);
+    this.bodySides = this.store.selectSnapshot(AppState.bodySide);
     this.filter = this.store.selectSnapshot(AppState.listingFilter);
     this.examinations = this.store.selectSnapshot(AppState.examinations);
     this.locations = this.store.selectSnapshot(AppState.locations);
@@ -350,7 +351,7 @@ export class DailyListingComponent implements OnInit {
         data.map(d => {
           d.previousOrderSlotId = data.find(f => f.patientId !== null && f.timeTo === d.timeFrom)?.slotId;
           d.nextOrderSlotId = data.find(f => f.patientId !== null && f.timeFrom === d.timeTo)?.slotId;
-          d.sideText = d.side ? this.sides.find(f => f.value === d.side).name : null;
+          d.sideText = d.side ? this.bodySides.find(f => f.bodySide === d.side).bodySideName : null;
           d.bodyPartText = d.bodyPart ? this.bodyParts.find(f => f.bodyPart === d.bodyPart).bodyPartName : null;
         });
         this.dataSource.data = data;
