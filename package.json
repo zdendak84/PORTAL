@@ -22,6 +22,7 @@
     "@angular/platform-browser": "^16.2.12",
     "@angular/platform-browser-dynamic": "^16.2.12",
     "@angular/router": "^16.2.12",
+    "@ng-idle/core": "^14.0.0",
     "@ngneat/until-destroy": "^8.0.2",
     "@ngxs/devtools-plugin": "^3.8.2",
     "@ngxs/router-plugin": "^3.8.2",
