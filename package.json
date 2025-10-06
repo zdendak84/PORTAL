@@ -40,7 +40,6 @@
     "ng2-charts": "^2.4.1",
     "ngx-color-picker": "^10.0.1",
     "ngx-device-detector": "^7.0.0",
-    "ngx-flexible-layout": "^17.0.4",
     "ngx-mat-select-search": "^7.0.10",
     "ngx-material-timepicker": "^5.5.3",
     "pdfmake": "^0.1.68",
