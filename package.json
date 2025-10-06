@@ -39,7 +39,6 @@
     "moment": "^2.29.4",
     "ng2-charts": "^2.4.1",
     "ngx-color-picker": "^10.0.1",
-    "ngx-device-detector": "^5.0.1",
     "ngx-mat-select-search": "^4.2.0",
     "ngx-material-timepicker": "^5.5.3",
     "pdfmake": "^0.1.68",
