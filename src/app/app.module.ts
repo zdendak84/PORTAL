@@ -17,11 +17,10 @@ import { JwtInterceptor } from '@services/interceptors/jwt.interceptor';
 import { NavBarComponent } from './screens/nav-bar/nav-bar.component';
 import { NgIdleModule } from '@ng-idle/core';
 import { MaterialModule } from '@shared/material.module';
-import { CarePlanComponent } from "./screens/carePlan/carePlan.component";
 
 @NgModule({
   declarations: [
-    AppComponent, LoginComponent, NavBarComponent, CarePlanComponent
+    AppComponent, LoginComponent, NavBarComponent
   ],
   imports: [
     NgxsModule.forRoot([AppState], {developmentMode: !environment.production}),
