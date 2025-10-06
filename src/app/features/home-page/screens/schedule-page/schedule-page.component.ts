@@ -24,9 +24,10 @@ import { SetSchedulePeriod } from "@store/app.actions";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-schedule-page',
-  templateUrl: './schedule-page.component.html',
-  styleUrls: ['./schedule-page.component.css']
+    selector: 'app-schedule-page',
+    templateUrl: './schedule-page.component.html',
+    styleUrls: ['./schedule-page.component.css'],
+    standalone: false
 })
 export class SchedulePageComponent implements OnInit {
   readonly dayNames = DAYS_NAME;

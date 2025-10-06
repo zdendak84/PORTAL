@@ -15,9 +15,10 @@ import { Store } from "@ngxs/store";
 import { ThemePalette } from "@angular/material/core";
 
 @Component({
-  selector: 'app-slot-reservation-modal-component',
-  templateUrl: './slot-reservation-modal.component.html',
-  styleUrls: ['./slot-reservation-modal.component.css']
+    selector: 'app-slot-reservation-modal-component',
+    templateUrl: './slot-reservation-modal.component.html',
+    styleUrls: ['./slot-reservation-modal.component.css'],
+    standalone: false
 })
 export class SlotReservationModalComponent implements OnInit {
   readonly fieldRequired = 'Toto pole je povinné';

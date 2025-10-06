@@ -5,9 +5,10 @@ import { SlotHistoryDataModel } from '@shared/model/backend-api/slotHistoryDataM
 import { SlotService } from '@services/backend-api/slot/slot.service';
 
 @Component({
-  selector: 'app-slot-history-modal-component',
-  templateUrl: './slot-history-modal.component.html',
-  styleUrls: ['./slot-history-modal.component.css']
+    selector: 'app-slot-history-modal-component',
+    templateUrl: './slot-history-modal.component.html',
+    styleUrls: ['./slot-history-modal.component.css'],
+    standalone: false
 })
 export class SlotHistoryModalComponent implements OnInit {
   loading = true;

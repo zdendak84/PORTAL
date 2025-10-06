@@ -14,9 +14,10 @@ import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-user-page',
-  templateUrl: './change-password-modal.component.html',
-  styleUrls: ['./change-password-modal.component.css'],
+    selector: 'app-user-page',
+    templateUrl: './change-password-modal.component.html',
+    styleUrls: ['./change-password-modal.component.css'],
+    standalone: false
 })
 export class ChangePasswordModalComponent implements OnInit {
   readonly fieldRequired = 'Toto pole je povinné';

@@ -10,9 +10,10 @@ import { UserDataModel } from "@shared/model/backend-api/userDataModel";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css'],
+    selector: 'app-nav-bar',
+    templateUrl: './nav-bar.component.html',
+    styleUrls: ['./nav-bar.component.css'],
+    standalone: false
 })
 export class NavBarComponent implements OnInit {
   @Input() loggedUser: UserDataModel;

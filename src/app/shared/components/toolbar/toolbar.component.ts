@@ -4,9 +4,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-toolbar',
-  templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css'],
+    selector: 'app-toolbar',
+    templateUrl: './toolbar.component.html',
+    styleUrls: ['./toolbar.component.css'],
+    standalone: false
 })
 export class ToolbarComponent {
   errorMessage: string;

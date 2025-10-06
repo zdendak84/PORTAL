@@ -38,9 +38,10 @@ import { BodySideCodebook } from "@shared/model/backend-api/codebooks/bodySideCo
 
 @UntilDestroy()
 @Component({
-  selector: 'app-daily-listing',
-  templateUrl: './daily-listing.component.html',
-  styleUrls: ['./daily-listing.component.css']
+    selector: 'app-daily-listing',
+    templateUrl: './daily-listing.component.html',
+    styleUrls: ['./daily-listing.component.css'],
+    standalone: false
 })
 export class DailyListingComponent implements OnInit {
   readonly action = SlotActionEnum;

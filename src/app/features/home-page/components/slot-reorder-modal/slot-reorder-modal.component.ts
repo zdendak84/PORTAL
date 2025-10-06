@@ -6,9 +6,10 @@ import { ReorderAlternativeDataModel } from "@shared/model/backend-api/reorderAl
 import { SlotService } from "@services/backend-api/slot/slot.service";
 
 @Component({
-  selector: 'app-slot-reorder-modal-component',
-  templateUrl: './slot-reorder-modal.component.html',
-  styleUrls: ['./slot-reorder-modal.component.css']
+    selector: 'app-slot-reorder-modal-component',
+    templateUrl: './slot-reorder-modal.component.html',
+    styleUrls: ['./slot-reorder-modal.component.css'],
+    standalone: false
 })
 export class SlotReorderModalComponent implements OnInit {
   readonly fieldRequired = 'Toto pole je povinné';

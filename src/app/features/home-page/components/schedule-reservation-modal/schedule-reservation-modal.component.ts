@@ -7,9 +7,10 @@ import { ShiftDataModel } from "@shared/model/backend-api/schedule/shiftDataMode
 import { ScheduleService } from "@services/backend-api/schedule/schedule.service";
 
 @Component({
-  selector: 'app-schedule-reservation-modal-component',
-  templateUrl: './schedule-reservation-modal.component.html',
-  styleUrls: ['./schedule-reservation-modal.component.css']
+    selector: 'app-schedule-reservation-modal-component',
+    templateUrl: './schedule-reservation-modal.component.html',
+    styleUrls: ['./schedule-reservation-modal.component.css'],
+    standalone: false
 })
 export class ScheduleReservationModalComponent implements OnInit {
   readonly fieldRequired = 'Toto pole je povinné';

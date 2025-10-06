@@ -2,9 +2,10 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-filter-user-input',
-  templateUrl: './filter-userInput.component.html',
-  styleUrls: ['./filter-userInput.component.css']
+    selector: 'app-filter-user-input',
+    templateUrl: './filter-userInput.component.html',
+    styleUrls: ['./filter-userInput.component.css'],
+    standalone: false
 })
 export class FilterUserInputComponent implements OnInit {
   @Input() enabled: boolean;

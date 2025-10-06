@@ -2,9 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-yes-no-modal',
-  templateUrl: './yes-no-modal.component.html',
-  styleUrls: ['./yes-no-modal.component.css']
+    selector: 'app-yes-no-modal',
+    templateUrl: './yes-no-modal.component.html',
+    styleUrls: ['./yes-no-modal.component.css'],
+    standalone: false
 })
 export class YesNoModalComponent implements OnInit {
 

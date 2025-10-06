@@ -1,7 +1,8 @@
 import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 
 @Directive({
-  selector: '[appNumberOnly]'
+    selector: '[appNumberOnly]',
+    standalone: false
 })
 export class OnlyNumberDirective implements OnInit {
   inputElement: HTMLElement;

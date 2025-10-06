@@ -10,9 +10,10 @@ import { MatPaginator } from "@angular/material/paginator";
 import { DiacriticsService } from "@services/utility/diacritics.service";
 
 @Component({
-  selector: 'app-event-modal-component',
-  templateUrl: './event-modal.component.html',
-  styleUrls: ['./event-modal.component.css'],
+    selector: 'app-event-modal-component',
+    templateUrl: './event-modal.component.html',
+    styleUrls: ['./event-modal.component.css'],
+    standalone: false
 })
 export class EventModalComponent implements OnInit {
   loading: boolean;

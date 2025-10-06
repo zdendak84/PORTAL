@@ -4,9 +4,10 @@ import { ListingDataModel } from "@shared/model/backend-api/listingDataModel";
 import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
 
 @Component({
-  selector: 'app-slot-preview-modal-component',
-  templateUrl: './slot-preview-modal.component.html',
-  styleUrls: ['./slot-preview-modal.component.css']
+    selector: 'app-slot-preview-modal-component',
+    templateUrl: './slot-preview-modal.component.html',
+    styleUrls: ['./slot-preview-modal.component.css'],
+    standalone: false
 })
 export class SlotPreviewModalComponent implements OnInit {
   constructor(

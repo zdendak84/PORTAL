@@ -5,9 +5,10 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ModalEventEnum } from '@shared/model/enums/modalEventEnum';
 
 @Component({
-  selector: 'app-description-modal-component',
-  templateUrl: './description-modal.component.html',
-  styleUrls: ['./description-modal.component.css']
+    selector: 'app-description-modal-component',
+    templateUrl: './description-modal.component.html',
+    styleUrls: ['./description-modal.component.css'],
+    standalone: false
 })
 export class DescriptionModalComponent implements OnInit {
   descriptionForm: UntypedFormGroup;

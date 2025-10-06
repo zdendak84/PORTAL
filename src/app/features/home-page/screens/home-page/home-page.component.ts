@@ -18,9 +18,10 @@ import {formatDate} from "@angular/common";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css'],
+    selector: 'app-home-page',
+    templateUrl: './home-page.component.html',
+    styleUrls: ['./home-page.component.css'],
+    standalone: false
 })
 
 export class HomePageComponent implements OnInit {
