@@ -35,7 +35,7 @@ export class ListingPrintPDF {
       }
     };
 
-    if (this.deviceService.getDeviceInfo().browser === ('IE' || 'MS-Edge')) {
+    if (this.deviceService.getDeviceInfo().browser === ('MS-Edge')) {
       pdfMake.createPdf(documentDefinition).download();
     } else {
       pdfMake.createPdf(documentDefinition).print();
