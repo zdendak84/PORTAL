@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToolbarComponent } from '@shared/components/toolbar/toolbar.component';
 import { StatusPipe } from '@shared/pipes/status/status.pipe';
@@ -34,7 +33,6 @@ import { FilterUserInputComponent } from '@shared/filters/filter-userInput/filte
     imports: [
         CommonModule,
         FormsModule,
-        ChartsModule,
         ReactiveFormsModule,
         MaterialModule
     ],

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { DailyListingComponent } from "./screens/daily-listing/daily-listing.component";
 import { HomePageComponent } from './screens/home-page/home-page.component';
 import { HomePageRoutingModule } from './home-page-routing.module';
-import { ChartsModule } from 'ng2-charts';
 import { NgModule } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
 import { SlotHistoryModalComponent } from "./components/slot-history-modal/slot-history-modal.component";
@@ -30,7 +29,6 @@ import { ScheduleReservationModalComponent } from "./components/schedule-reserva
         CommonModule,
         SharedModule,
         HomePageRoutingModule,
-        ChartsModule,
         NgxsModule.forFeature([AppState]),
     ]
 })
