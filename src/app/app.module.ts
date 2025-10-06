@@ -4,7 +4,7 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,27 +18,21 @@ import { NavBarComponent } from './screens/nav-bar/nav-bar.component';
 import { NgIdleModule } from '@ng-idle/core';
 import { MaterialModule } from '@shared/material.module';
 
-@NgModule({
-  declarations: [
-    AppComponent, LoginComponent, NavBarComponent
-  ],
-  imports: [
-    NgxsModule.forRoot([AppState], {developmentMode: !environment.production}),
-    NgxsRouterPluginModule.forRoot(),
-    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),
-    NgIdleModule.forRoot(),
-    SharedModule,
-    MaterialModule,
-    AppRoutingModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-  ],
-  providers: [
-  { provide: HTTP_INTERCEPTORS, useClass: APIInterceptor, multi: true },
-  { provide: 'BASE_API_URL', useValue: environment.apiUrl },
-  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent, LoginComponent, NavBarComponent
+    ],
+    bootstrap: [AppComponent], imports: [NgxsModule.forRoot([AppState], { developmentMode: !environment.production }),
+        NgxsRouterPluginModule.forRoot(),
+        NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production }),
+        NgIdleModule.forRoot(),
+        SharedModule,
+        MaterialModule,
+        AppRoutingModule,
+        BrowserModule,
+        BrowserAnimationsModule], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: APIInterceptor, multi: true },
+        { provide: 'BASE_API_URL', useValue: environment.apiUrl },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {}
