@@ -35,9 +35,9 @@
   <ng-container [matColumnDef]="columnData[0].displayed">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let row">
-      <mat-chip-list *ngIf="row.relevant && row.type === 2 && isDesktop && row.previousOrderSlotId && row.operationWorkplace">
-        <mat-chip matTooltip="Posunout nahoru" (click)="slotAction(row, action.shiftUp)"><mat-icon>arrow_upward</mat-icon></mat-chip>
-      </mat-chip-list>
+      <mat-chip-listbox *ngIf="row.relevant && row.type === 2 && isDesktop && row.previousOrderSlotId && row.operationWorkplace">
+        <mat-chip-option matTooltip="Posunout nahoru" (click)="slotAction(row, action.shiftUp)"><mat-icon>arrow_upward</mat-icon></mat-chip-option>
+      </mat-chip-listbox>
     </td>
   </ng-container>
   <ng-container [matColumnDef]="columnData[1].displayed">
@@ -51,9 +51,9 @@
   <ng-container [matColumnDef]="columnData[2].displayed">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let row">
-      <mat-chip-list *ngIf="row.relevant && row.type === 2 && isDesktop && row.nextOrderSlotId && row.operationWorkplace">
-        <mat-chip matTooltip="Posunout dolu" (click)="slotAction(row, action.shiftDown)"><mat-icon>arrow_downward</mat-icon></mat-chip>
-      </mat-chip-list>
+      <mat-chip-listbox *ngIf="row.relevant && row.type === 2 && isDesktop && row.nextOrderSlotId && row.operationWorkplace">
+        <mat-chip-option matTooltip="Posunout dolu" (click)="slotAction(row, action.shiftDown)"><mat-icon>arrow_downward</mat-icon></mat-chip-option>
+      </mat-chip-listbox>
     </td>
   </ng-container>
   <ng-container [matColumnDef]="columnData[3].displayed">
@@ -143,10 +143,10 @@
   <ng-container [matColumnDef]="isDesktop ? columnData[14].displayed : columnData[4].displayed">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let row">
-      <mat-chip-list *ngIf="row.relevant && row.type > 0">
-        <mat-chip *ngIf="row.type === 1 && row.operationWorkplace" color="accent" matTooltip="Rezervovat operaci" (click)="slotAction(row, action.reservation)" selected><mat-icon>today</mat-icon></mat-chip>
-        <mat-chip *ngIf="row.type === 2"><mat-icon [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{row: row}">more_vert</mat-icon></mat-chip>
-      </mat-chip-list>
+      <mat-chip-listbox *ngIf="row.relevant && row.type > 0">
+        <mat-chip-option *ngIf="row.type === 1 && row.operationWorkplace" color="accent" matTooltip="Rezervovat operaci" (click)="slotAction(row, action.reservation)" selected><mat-icon>today</mat-icon></mat-chip-option>
+        <mat-chip-option *ngIf="row.type === 2"><mat-icon [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{row: row}">more_vert</mat-icon></mat-chip-option>
+      </mat-chip-listbox>
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -19,10 +19,10 @@
       <ng-container matColumnDef="severity">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Závažnost</th>
         <td mat-cell *matCellDef="let row">
-          <mat-chip-list>
-            <mat-chip [style.background]="getColor(row.severity)">{{ row.severity }}
-            </mat-chip>
-          </mat-chip-list>
+          <mat-chip-listbox>
+            <mat-chip-option [style.background]="getColor(row.severity)">{{ row.severity }}
+            </mat-chip-option>
+          </mat-chip-listbox>
         </td>
       </ng-container>
 

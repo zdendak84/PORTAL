@@ -27,7 +27,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MAT_MOMENT_DATE_FORMATS, MatMomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from 'ngx-flexible-layout';
 import { getCzechPaginatorIntl } from '@shared/utils/czech-paginator';
 
 @NgModule({

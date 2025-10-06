@@ -15,6 +15,6 @@
   left: 0;
 }
 
-:host ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+:host ::ng-deep .mat-mdc-progress-spinner circle, .mat-mdc-progress-spinner circle {
   stroke: white;
 }
